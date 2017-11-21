@@ -21,7 +21,7 @@
       </el-table-column>
       <el-table-column align="center" width="100px" label="店铺logo">
         <template scope="scope">
-          <img :src="scope.row.urllogo" style="width: 64px;height: 64px;padding-top: 5px;"/>
+          <img :src="scope.row.stroelogo" style="width: 64px;height: 64px;padding-top: 5px;"/>
         </template>
       </el-table-column>
       <el-table-column align="center" min-width="200" label="店铺名称" prop="storename" sortable>
@@ -34,7 +34,7 @@
       </el-table-column>
       <el-table-column align="center" width="150" label="行业" prop="storeType" >
       </el-table-column>
-      <el-table-column align="center" width="150" label="店铺地址" prop="address" >
+      <el-table-column align="center" width="150" label="店铺地址" prop="storeaddress" >
       </el-table-column>
       <el-table-column align="center" width="150" label="简介" prop="introduce" >
       </el-table-column>
@@ -47,14 +47,14 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="120" label="注册时间" prop="timestamp" sortable>
+      <el-table-column align="center" width="120" label="注册时间" prop="createtime" sortable>
       </el-table-column>
 
       <el-table-column align="center" label="操作" width="150">
         <template scope="scope">
-          <el-button v-if="scope.row.status === 0" size="small" type="info" @click="handleModifyStatus(scope.row, 1)">启用
+          <el-button v-if="scope.row.isauth === 0" size="small" type="info" @click="handleModifyStatus(scope.row, 1)">启用
           </el-button>
-          <el-button v-if="scope.row.status === 1" size="small" type="warning"
+          <el-button v-if="scope.row.isauth === 1" size="small" type="warning"
                      @click="handleModifyStatus(scope.row, 0)">禁用
           </el-button>
           <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除
@@ -78,38 +78,6 @@
 <script>
   import {parseTime} from '../../assets/js/tool';
 
-  const testData = [
-    {id: 100001, name: 'leyi19', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100002, name: 'leyi9', timestamp: '2017-07-18 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100003, name: 'leyi8', timestamp: '2017-07-19 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100004, name: 'leyi7', timestamp: '2017-07-20 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100005, name: 'leyi6', timestamp: '2017-07-21 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100006, name: 'leyi5', timestamp: '2017-07-22 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100007, name: 'leyi', timestamp: '2017-07-23 12:12:12', status: 0, phone: '13758087099', money: '20.4'},
-    {id: 100008, name: 'leyi', timestamp: '2017-07-24 12:12:12', status: 0, phone: '13758087098', money: '20.4'},
-    {id: 100009, name: 'leyi', timestamp: '2017-07-25 12:12:12', status: 0, phone: '13758087097', money: '20.4'},
-    {id: 100010, name: 'leyi', timestamp: '2017-07-26 12:12:12', status: 0, phone: '13758087096', money: '20.4'},
-    {id: 100011, name: 'leyi', timestamp: '2017-07-27 12:12:12', status: 0, phone: '13758087095', money: '20.4'},
-    {id: 100012, name: 'leyi', timestamp: '2017-07-28 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100013, name: 'leyi', timestamp: '2017-07-29 12:12:12', status: 0, phone: '13758087093', money: '20.4'},
-    {id: 100014, name: 'leyi', timestamp: '2017-07-30 12:12:12', status: 0, phone: '13758087092', money: '20.4'},
-    {id: 100015, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087091', money: '20.4'},
-    {id: 100016, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100017, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100018, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100019, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100020, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100021, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100022, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100023, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100024, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100025, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100026, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100027, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100028, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100029, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'},
-    {id: 100030, name: 'leyi', timestamp: '2017-07-17 12:12:12', status: 0, phone: '13758087094', money: '20.4'}
-  ];
   export default {
     name: 'EnableClientPane',
     data() {
@@ -147,10 +115,14 @@
       getList() {
         this.listLoading = true;
         setTimeout((items, total) => {
-          this.list = testData.slice(((this.listQuery.page - 1) * this.listQuery.limit), this.listQuery.page * this.listQuery.limit);
-          this.total = testData.length;
-          this.listLoading = false;
-          this.$emit('updateCount', this.total);
+          var  info={};
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetStopStore',info).then((res)=>{
+            this.total=res.total;
+            this.list=this.list;
+
+          })
         }, 2000);
       },
       handleSizeChange(val) {

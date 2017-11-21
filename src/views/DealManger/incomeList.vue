@@ -18,69 +18,7 @@
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter" size="small">搜索
             </el-button>
 
-            <!--高级搜索popover-->
-            <el-popover
-              ref="advancedSea2rchPopover"
-              placement="top-start"
-              width="1000"
-              trigger="click"
-              v-model="showAdvancedSearchPopover">
-              <el-form label-width="80px" label-position="right">
-                <el-row>
-                  <el-col :span="10">
-                    <el-form-item label="关键词">
-                      <el-input size="small" placeholder="请输入订单号" style="width: 300px;"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="下单时间">
-                      <el-date-picker
-                        type="datetimerange"
-                        :picker-options="dateTimePickerOptions"
-                        placeholder="选择时间范围"
-                        clearable
-                        align="right">
-                      </el-date-picker>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
 
-                <el-row>
-                  <el-col :span="10">
-                    <el-form-item label="收货人信息">
-                      <el-input size="small" placeholder="请输入收货人/收货电话" style="width: 300px;"></el-input>
-                    </el-form-item>
-                  </el-col>
-
-                  <el-col :span="10">
-                    <el-form-item label="商品信息">
-                      <el-input size="small" placeholder="请输入商品名称/编码" style="width: 300px;"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-
-                <el-row>
-                  <el-col :span="24">
-                    <el-form-item label="订单状态">
-                      <el-checkbox size="small" :indeterminate="isIndeterminateStatus" v-model="checkAllStatus"
-                                   @change="handleCheckAllStatusChange">全选
-                      </el-checkbox>
-                      <el-checkbox-group v-model="checkedStatuss" @change="handleCheckedStatusChange"
-                                         style="display: inline-block;margin-left: 15px;">
-                        <el-checkbox size="small" v-for="status in orderStatus" :label="status.value" :key="status.value">
-                          {{status.label}}
-                        </el-checkbox>
-                      </el-checkbox-group>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-
-                <el-form-item>
-                  <el-button type="primary" size="small">确定</el-button>
-                  <el-button size="small" @click="showAdvancedSearchPopover = false">取消</el-button>
-                </el-form-item>
-              </el-form>
-            </el-popover>
             <el-button class="filter-item" type="primary" v-waves icon="menu" v-popover:advancedSearchPopover size="small"
                        style="margin-left: 0;">高级搜索
             </el-button>
@@ -112,19 +50,24 @@
                        type="selection"
                        width="55">
       </el-table-column>
-
+      <el-table-column
+        width="100px"
+        align="center"
+        label="序号"
+        type="index"
+      ></el-table-column>
       <el-table-column align="center" min-width="100px" label="订单号" show-overflow-tooltip>
         <template scope="scope">
-          <span class="link-type" @click="handleDetail(scope.row)">{{scope.row.orderId}}</span>
+          <span class="link-type" @click="handleDetail(scope.row)">{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" width="180px" label="订单流水号" prop="goodsName" sortable>
+      <el-table-column align="center" width="180px" label="订单流水号" prop="ordercode" sortable>
       </el-table-column>
-      <el-table-column align="center" width="180px" label="支付人" prop="goodsName" sortable>
+      <el-table-column align="center" width="180px" label="支付人" prop="payname" sortable>
       </el-table-column>
-      <el-table-column align="center" width="180px" label="收入时间" prop="goodsName" sortable>
+      <el-table-column align="center" width="200px" label="收入时间" prop="paytime" sortable>
       </el-table-column>
-      <el-table-column align="center" width="180px" label="金额" prop="goodsName" sortable>
+      <el-table-column align="center" width="180px" label="金额" prop="price" sortable>
       </el-table-column>
       <el-table-column align="center" label="状态" width="100">
         <template scope="scope">
@@ -147,43 +90,7 @@
   import {parseTime} from '../../assets/js/tool';
   import keepAliveList from '../keepAliveList';
 
-  const testData = [
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095601', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095602', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 3},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095603', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 4},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095604', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 5},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095605', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095607', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095608', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095601', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 3},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 4},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 5},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 5},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 4},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 3},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 3},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 4},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 5},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 5},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1}
-  ];
+
 
 
   export default {
@@ -201,7 +108,7 @@
           orderId: undefined,
           status: undefined
         },
-        orderStatus: [{label: '待付款', value: 1}, {label: '待发货', value: 2}, {label: '已发货', value: 3}, {label: '已取消', value: 4}, {label: '已完成', value: 5}],
+        orderStatus: [{label: '已支付', value: 1},  {label: '未支付', value: 2}],
         checkAllStatus: true,
         checkedStatuss: [0, 1],
         isIndeterminateStatus: false,
@@ -249,19 +156,25 @@
       },
       statusFilter(status) {
         const statusMap = ['primary', 'success', 'warning', 'danger', 'gray'];
-        return statusMap[status - 1];
+        return statusMap[status];
       },
       statusFilterTip(status) {
-        const statusMap = ['待付款', '待发货', '已发货', '已取消', '已完成'];
-        return statusMap[status - 1];
+        const statusMap = ['未支付', '已支付'];
+        return statusMap[status];
       }
     },
     methods: {
       getList() {
         this.listLoading = true;
         setTimeout((items, total) => {
-          this.list = testData.slice(((this.listQuery.page - 1) * this.listQuery.limit), this.listQuery.page * this.listQuery.limit);
-          this.total = testData.length;
+          var info={};
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetIncomeList',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+            console.log(res.list);
+          })
           this.listLoading = false;
         }, 2000);
       },

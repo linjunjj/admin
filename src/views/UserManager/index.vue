@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-editor-container">
+  <div class="dashboard-editor-container" v-loading="listLoading">
     <el-row class="btn-group">
       <el-col :span="4" class='text-center'>
         <span class="pan-btn light-blue-btn">今日新增用户：123</span>
@@ -15,9 +15,9 @@
       </el-col>
     </el-row>
 
-    <el-row :gutter="20">
+    <el-row :gutter="20" >
       <el-col :span="24">
-        <visitor-chart></visitor-chart>
+        <visitor-chart :data="data" ></visitor-chart>
       </el-col>
     </el-row>
 
@@ -32,8 +32,40 @@
     components: { moneyChart, visitorChart },
     data() {
       return {
+        data:[9, 82, 91, 6, 0, 5, 7],
+        todaysuer:'',
+        sumuser:'',
+        weekadduser:'',
+        monthadduser:'',
+        monthday:'',
       };
     },
+     created(){
+      this.getData();
+     },
+     methods:{
+       getData(){
+         this.listLoading=true;
+         setTimeout((items,total)=>{
+         this.$store.dispatch('GetUserImage').then((res)=>{
+           this.todaysuer=res.newuser;
+           this.sumuser=res.alluser;
+           this.weekadduser=res.weekUser;
+           this.monthday=res.monthday;
+           this.monthadduser=res.monthUser;
+         }).catch((error)=>{
+           this.listLoading = false;
+
+           this.$message.error("获取数据失败");
+
+         }),
+           this.listLoading = false;
+
+         },2000);
+
+       }
+     },
+
     computed: {
     }
   };

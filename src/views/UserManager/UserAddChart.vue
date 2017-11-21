@@ -5,7 +5,7 @@
 <script>
   import echarts from 'echarts';
   require('echarts/theme/macarons'); // echarts 主题
-  import { debounce } from '../../assets/js/tool';
+//  import { debounce } from '../../assets/js/tool';
 
   export default {
     props: {
@@ -24,11 +24,21 @@
       autoResize: {
         type: Boolean,
         default: true
-      }
+      },
+      data: {
+        required: true,
+        type: Object
+      },
+      month: {
+        required: true,
+        type: Object
+      },
     },
     data() {
       return {
-        chart: null
+        chart: null,
+        data:this.data,
+        month:this.month,
       };
     },
     mounted() {
@@ -58,6 +68,9 @@
     },
     methods: {
       initChart() {
+        console.log("sdfsdf");
+        console.log(this.data);
+
         this.chart = echarts.init(this.$el, 'macarons');
         this.chart.setOption({
           title: {
@@ -99,7 +112,7 @@
                   }
                 }
               },
-              data: [9, 82, 91, 6, 0, 5, 7]
+              data: this.data,
             }
         });
       }

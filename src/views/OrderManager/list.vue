@@ -115,7 +115,7 @@
 
       <el-table-column align="center" min-width="100px" label="订单号" show-overflow-tooltip>
         <template scope="scope">
-          <span class="link-type" @click="handleDetail(scope.row)">{{scope.row.orderId}}</span>
+          <span class="link-type" @click="handleDetail(scope.row)">{{scope.row.id}}</span>
         </template>
       </el-table-column>
 
@@ -129,22 +129,35 @@
       </el-table-column>
       <el-table-column align="center" width="180px" label="店铺" prop="goodsName" sortable>
       </el-table-column>
-      <el-table-column align="center" width="180px" label="店主" prop="goodsName" sortable>
+      <el-table-column align="center" width="180px" label="店主" prop="storeName" sortable>
       </el-table-column>
-      <el-table-column align="center" width="180px" label="下单时间" prop="sendtime" sortable>
+      <el-table-column align="center" width="180px" label="下单时间" prop="createTime" sortable>
       </el-table-column>
-      <el-table-column align="center" min-width="200px" label="收货人" prop="people" sortable show-overflow-tooltip>
+      <el-table-column align="center" width="180px" label="付款时间" prop="payTime" sortable>
+      </el-table-column>
+      <el-table-column align="center" width="180px" label="发货时间" prop="sendTime" sortable>
+    </el-table-column>
+      <el-table-column align="center" width="180px" label="取消时间" prop="cancelTime" sortable>
+    </el-table-column>
+      <el-table-column align="center" width="180px" label="完成时间" prop="completTime" sortable>
+      </el-table-column>
+
+
+      <el-table-column align="center" min-width="200px" label="收货人" prop="revierPeople" sortable show-overflow-tooltip>
       </el-table-column>
       <el-table-column align="center" width="180px" label="联系方式" prop="tel" sortable>
       </el-table-column>
       <el-table-column align="center" width="180px" label="单价" prop="price" sortable>
       </el-table-column>
-      <el-table-column align="center" width="180px" label="地址" prop="goodsName" sortable>
+      <el-table-column align="center" width="180px" label="地址" prop="address" sortable>
       </el-table-column>
-      <el-table-column align="center" width="180px" label="数量" prop="amount" sortable>
+      <el-table-column align="center" width="180px" label="数量" prop="acount" sortable>
       </el-table-column>
-      <el-table-column align="center" width="200px" label="总价" prop="money">
+      <el-table-column align="center" width="200px" label="总价" prop="allPrice">
       </el-table-column>
+
+
+
 
       <el-table-column align="center" label="状态" width="100">
         <template scope="scope">
@@ -167,43 +180,7 @@
   import {parseTime} from '../../assets/js/tool';
   import keepAliveList from '../keepAliveList';
 
-  const testData = [
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095601', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095602', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 3},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095603', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 4},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095604', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 5},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095605', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095607', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095608', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095601', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 3},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 4},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 5},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 5},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 4},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 3},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 3},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 4},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 5},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 2},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 5},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1},
-    {orderId: 95601, orderCode: 'DH-O-20170721-095606', timestamp: '2017-07-21 12:45:32', receiver: 'leyi', money: '45.34', status: 1}
-  ];
+
 
 
   export default {
@@ -280,8 +257,13 @@
       getList() {
         this.listLoading = true;
         setTimeout((items, total) => {
-          this.list = testData.slice(((this.listQuery.page - 1) * this.listQuery.limit), this.listQuery.page * this.listQuery.limit);
-          this.total = testData.length;
+          var  info={};
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetOrderList',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
           this.listLoading = false;
         }, 2000);
       },

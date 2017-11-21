@@ -31,7 +31,7 @@ const user = {
     }
   },
   actions: {
-
+        //得到用户列表
         GetUserList({commit},info){
           return new Promise((resolve,reject)=>{
             axios.get('/api/admin/getUserAll',{
@@ -51,12 +51,280 @@ const user = {
             })
           })
         },
+    //获取用户概览
+    GetUserImage(){
+       return new Promise((resolve,reject)=>{
+         axios.get('/api/admin/getUserAllImage').then(function (responce) {
+            var code=response.data.errorcode;
+            if (code=="200"){
+              resolve(response.data.data);
+            }else {
+              reject(response.data.errormsg);
+            }
+         }).catch((error)=>{
+           reject(error);
+         })
+       })
+    },
+    //获取店家列表
+    GetStoreList({commit},info){
+          return new Promise((resolve,reject)=>{
+            axios.get('/api/admin/getStoreAll',{
+              params:{
+                page:info.page,
+                  pagesize:info.pagesize,
+              }
+            }).then(function (response) {
+              var  code=response.data.errorcode;
+              if (code=="200"){
+                resolve(response.data.data);
+              }else {
+                reject(response.data.errormsg);
+              }
+            }).catch((error)=>{
+              reject(error);
+            })
+          })
+    },
+    //获取启用商家列表
+    GetStoreStart({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStartStore',{
+          params:{
+            page:info.page,
+            pagesize:info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+      })
+    },
+    //获取禁用商家列表
+    GetStopStore({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStopStore',{
+          params:{
+            page:info.page,
+            pagesize:info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+      })
+    },
 
+    //获取商品列表
+    GetGoodsList({commit}, info) {
+      return new Promise((resolve, reject)=>{
+      axios.get('/api/admin/getGoodsAll', {
+        params: {
+          page: info.page,
+          pagesize: info.pagesize,
+        }
 
+      }).then(function (response) {
+        var  code=response.data.errorcode;
+        if (code=="200"){
+             resolve(response.data.data);
+        }else {
+          reject(response.data.errormsg)
+        }
+      }).catch((error)=>{
+          reject(error);
+      })
+    })
+    },
+    //获取所有订单
+    GetOrderList({commit},info){
+          return new Promise((resolve,reject)=>{
+            axios.get('/api/admin/getOrderAll',{
+              params:{
+                page: info.page,
+                pagesize: info.pagesize,
+              }
+            }).then(function (response) {
+              var  code=response.data.errorcode;
+              if (code=="200"){
+                resolve(response.data.data);
+              }else {
+                reject(response.data.errormsg);
+              }
+            }).catch((error)=>{
+              reject(error);
+            })
 
+          })
+    },
+    //获取收入列表
+   GetIncomeList({commit},info){
+     return new Promise((resolve,reject)=>{
+       axios.get('/api/admin/getIncomeList',{
+         params:{
+           page: info.page,
+           pagesize: info.pagesize,
+         }
+       }).then(function (response) {
+         var  code=response.data.errorcode;
+         if (code=="200"){
+           resolve(response.data.data);
+         }else {
+           reject(response.data.errormsg);
+         }
+       }).catch((error)=>{
+         reject(error);
+       })
 
+     })
 
+   },
+    //获取支出列表
+    GetOutcomeList({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getOutcomeList',{
+          params:{
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
 
+      })
+
+    },
+    //获取会员申请列表
+    GetMemberList({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getMemberApply',{
+          params:{
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+
+      })
+
+    },
+    //获取村村通申请列表
+    GetVillageList({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getVillageApply',{
+          params:{
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+
+      })
+
+    },
+    //获取商城申请列表
+    GetStoreApplyList({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStoreApply',{
+          params:{
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+
+      })
+
+    },
+
+    //获取提现申请列表
+    GetWithDrawList({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getWithDrawApply',{
+          params:{
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+
+      })
+
+    },
+
+//获取轮播图列表
+    GetBanneList({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/banner/getbanner',{
+          params:{
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+
+      })
+
+    },
     // 管理员登入
     LoginByAccount({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
@@ -73,11 +341,11 @@ const user = {
           var code=response.data.errorcode;
           if(code="200"){
             let timers=new Date().getTime();
-            Cookies.set('Admin-token',timers);
+            Cookies.set('Admin-token',timers+response.data.data.id);
             commit('SET_ID',response.data.data.id);
             commit('SET_ACCOUNT',response.data.data.account);
             commit('SET_PASSWORD',response.data.data.passworld);
-            commit('SET_TOKEN',timers);
+            commit('SET_TOKEN',timers+response.data.data.id);
             resolve();
           }else {
             reject(response.data.errormsg);
@@ -91,7 +359,7 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         commit('SET_ROLES', ['admin']);
-        commit('SET_AVATAR', 'https://image.baidu.com/search/detail?ct=503316480&z=&tn=baiduimagedetail&ipn=d&word=%E7%AE%A1%E7%90%86%E5%91%98&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=-1&cs=3097986604,2363389459&os=2062706154,1126271128&simid=3323358115,265776553&pn=146&rn=1&di=98588474710&ln=1980&fr=&fmq=1511014829210_R&ic=0&s=undefined&se=&sme=&tab=0&width=&height=&face=undefined&is=0,0&istype=2&ist=&jit=&bdtype=0&spn=0&pi=0&gsm=5a&hs=2&objurl=http%3A%2F%2Fp1.so.qhmsg.com%2Ft010ff7ddb45b60e4c6.png&rpstart=0&rpnum=0&adpicid=0');
+        commit('SET_AVATAR', 'http://oz4zfzmr0.bkt.clouddn.com/store3.jpg');
         resolve(['admin']);
       });
     },

@@ -19,11 +19,16 @@
       height: {
         type: String,
         default: '300px'
-      }
+      },
+      data: {
+        required: true,
+        type: Object
+      },
     },
     data() {
       return {
-        chart: null
+        chart: null,
+        data:this.data,
       };
     },
     mounted() {
@@ -72,7 +77,7 @@
             type: 'bar',
             stack: 'vistors',
             barWidth: '60%',
-            data: [79, 52, 200, 334, 390, 330, 220]
+            data: this.data,
           },
         });
       }

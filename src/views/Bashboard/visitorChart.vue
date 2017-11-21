@@ -64,7 +64,7 @@
 
         this.chart.setOption({
           title: {
-            text: '本月新增人员',
+            text: '本月访客人员',
             x: 'center'
           },
           xAxis: {

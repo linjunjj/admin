@@ -16,13 +16,17 @@
         label="序号"
         type="index"
       ></el-table-column>
-      <el-table-column align="center" width="120px" label="店铺" prop="id" sortable>
+      <el-table-column align="center" width="120px" label="店铺" prop="storename" sortable>
       </el-table-column>
-      <el-table-column align="center" width="100px" label="申请人" prop="sku">
+      <el-table-column align="center" width="150px" label="申请人" prop="username">
       </el-table-column>
-      <el-table-column align="center" width="80px" label="金额" prop="unit">
+      <el-table-column align="center" width="140px" label="申请id" prop="userid">
       </el-table-column>
-      <el-table-column align="center" width="150px" label="申请时间" prop="createTime" sortable>
+      <el-table-column align="center"  label="银行账户" prop="bankacount">
+      </el-table-column>
+      <el-table-column align="center" width="80px" label="金额" prop="price">
+      </el-table-column>
+      <el-table-column align="center" width="150px" label="申请时间" prop="appletime" sortable>
       </el-table-column>
       <el-table-column align="center" label="状态" width="100">
         <template scope="scope">
@@ -73,250 +77,7 @@
   import {parseTime} from '../../assets/js/tool';
   import keepAliveList from '../keepAliveList';
 
-  const testData = [
-    {
-      id: 100001,
-      title: '轮播图1',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100002,
-      title: '轮播图2',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100003,
-      title: '轮播图3',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 0
-    },
-    {
-      id: 100004,
-      title: '轮播图4',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100005,
-      title: '轮播图5',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100006,
-      title: '轮播图6',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100007,
-      title: '轮播图7',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100008,
-      title: '轮播图8',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 0
-    },
-    {
-      id: 100009,
-      title: '轮播图9',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100010,
-      title: '轮播图10',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100011,
-      title: '轮播图11',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100012,
-      title: '轮播图12',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100013,
-      title: '轮播图13',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100014,
-      title: '轮播图14',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100015,
-      title: '轮播图15',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100016,
-      title: '轮播图16',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100017,
-      title: '轮播图17',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100018,
-      title: '轮播图18',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100019,
-      title: '轮播图19',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100020,
-      title: '轮播图20',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100021,
-      title: '轮播图21',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100022,
-      title: '轮播图22',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100023,
-      title: '轮播图23',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100024,
-      title: '轮播图24',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100025,
-      title: '轮播图25',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100026,
-      title: '轮播图26',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100027,
-      title: '轮播图27',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100028,
-      title: '轮播图28',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100029,
-      title: '轮播图29',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    },
-    {
-      id: 100030,
-      title: '轮播图30',
-      auditor: 'leyi',
-      timestamp: '2017-07-17 12:12:12',
-      url: 'http://img1.imgtn.bdimg.com/it/u=4024981923,3433833314&fm=26&gp=0.jpg',
-      status: 1
-    }
-  ];
 
-  const tags = [{id: 1, name: '新品上架'}, {id: 2, name: '热卖促销'}, {id: 3, name: '新客优惠'}];
 
   export default {
     components: {},
@@ -371,7 +132,6 @@
         }],
         checkAllTag: true,
         checkedTags: [1, 2],
-        tags: tags,
         isIndeterminateTag: true,
         checkAllStatus: true,
         checkedStatuss: [0, 1],
@@ -399,8 +159,14 @@
       getList() {
         this.listLoading = true;
         setTimeout((items, total) => {
-          this.list = testData.slice(((this.listQuery.page - 1) * this.listQuery.limit), this.listQuery.page * this.listQuery.limit);
-          this.total = testData.length;
+          var info={};
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetWithDrawList',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+            console.log(res.list);
+          })
           this.listLoading = false;
         }, 2000);
       },
@@ -415,35 +181,14 @@
         this.listQuery.page = val;
         this.getList();
       },
-      handleCheckAllTagChange(event) {
-        let tags = [];
-        for (let tag of this.tags) {
-          tags.push(tag.id);
-        }
-        this.checkedTags = event.target.checked ? tags : [];
-        this.isIndeterminateTag = false;
-      },
+
       handleCheckedTagsChange(value) {
         let checkedCount = value.length;
         this.checkAllTag = checkedCount === this.tags.length;
         this.isIndeterminateTag = checkedCount > 0 && checkedCount < this.tags.length;
       },
-      handleCheckAllStatusChange(event) {
-        let statuss = [];
-        for (let tag of this.goodStatus) {
-          statuss.push(tag.value);
-        }
-        this.checkedStatuss = event.target.checked ? statuss : [];
-        this.isIndeterminateStatus = false;
-      },
-      handleCheckedStatusChange(value) {
-        let checkedCount = value.length;
-        this.checkAllStatus = checkedCount === this.goodStatus.length;
-        this.isIndeterminateStatus = checkedCount > 0 && checkedCount < this.goodStatus.length;
-      },
-      handleCreate() {
-        this.jump({path: '/good/add-good'});
-      }
+
+
     },
     beforeRouteEnter (to, from, next) {
       next(vm => {

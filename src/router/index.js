@@ -147,10 +147,10 @@ export const asyncRouterMap = [
     name: '通知管理',
     icon: 'fa-gift',
     children: [
-      {path: 'memberApply', component: MemberApply, name: '会员申请', meta: {keepAlive: true, keepTabsView: true}},
-      {path: 'storeApply', component: StoreApply, name: '商城申请', meta: {keepAlive: true, keepTabsView: true}},
-      {path: 'villageApply', component: VillageApply, name: '村村通申请', meta: {keepAlive: true, keepTabsView: true}},
-      {path: 'withdrawApply', component: WithdrawApply, name: '提现申请', meta: {keepAlive: true, keepTabsView: true}},
+      {path: 'memberApply', component: MemberApply, name: '会员申请', meta: {keepAlive: false, keepTabsView: false}},
+      {path: 'storeApply', component: StoreApply, name: '商城申请', meta: {keepAlive: false, keepTabsView: false}},
+      {path: 'villageApply', component: VillageApply, name: '村村通申请', meta: {keepAlive: false, keepTabsView: false}},
+      {path: 'withdrawApply', component: WithdrawApply, name: '提现申请', meta: {keepAlive: false, keepTabsView: false}},
 
     ]
   },

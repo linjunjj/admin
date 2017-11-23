@@ -4,7 +4,29 @@
     <levelbar></levelbar>
     <tabs-view></tabs-view>
     <error-log v-if="log.length>0" class="errLog-container" :logsList="log"></error-log>
-    <screenfull class='screenfull'></screenfull>
+    <div class='screenfull'>
+      <el-dropdown @command="handleCommand">
+  <span class="el-dropdown-link">
+    <el-badge is-dot v-show="isinfo" ></el-badge>
+  <b>消息</b>
+    <i class="el-icon-caret-bottom"></i>
+  </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="a">会员申请
+            <el-badge :value="memberinfo" :max="99" ></el-badge>
+          </el-dropdown-item>
+          <el-dropdown-item command="b">村村通申请
+            <el-badge :value="villageinfo" :max="99"  ></el-badge>
+          </el-dropdown-item>
+          <el-dropdown-item command="c">门店申请
+            <el-badge :value="storeapplyinfo" :max="99"  ></el-badge>
+          </el-dropdown-item>
+          <el-dropdown-item command="d">提现申请
+            <el-badge :value="withdrawinfo" :max="99"  ></el-badge>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
         <img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
@@ -16,11 +38,7 @@
             首页
           </el-dropdown-item>
         </router-link>
-        <a target='_blank' href="https://github.com/PanJiaChen/vue-element-admin/">
-          <el-dropdown-item>
-            项目地址
-          </el-dropdown-item>
-        </a>
+
         <el-dropdown-item divided><span @click="logout" style="display:block;">退出登录</span></el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -44,6 +62,14 @@
     },
     data() {
       return {
+        isinfo:false,
+        memberinfo:0,
+        villageinfo:0,
+        storeapplyinfo:0,
+        withdrawinfo:0,
+
+
+
         log: errLogStore.state.errLog
       };
     },
@@ -52,9 +78,76 @@
         'sidebar',
         'name',
         'avatar'
-      ])
+      ]),
+      add(){
+        if (this.memberinfo+this.villageinfo+this.storeapplyinfo+this.withdrawinfo>0){
+          this.isinfo=true;
+        }else {
+        this.isinfo=false;
+        }
+
+      }
     },
+    created(){
+      this.getInfoData();
+      this.add();
+    },
+
+
     methods: {
+      getInfoData(){
+        this.$store.dispatch('GetInfos',0).then((res)=>{
+          this.memberinfo=res.memberinfo;
+          this.villageinfo=res.villageinfo;
+          this.storeapplyinfo=res.storeapplyinfo;
+          this.withdrawinfo=res.withdrawinfo;
+        })
+
+      },
+      handleCommand(command) {
+
+        var  info=0;
+        if (command=='a'){
+          if (this.memberinfo>0){
+            info=0;
+          }else {
+           info='';
+          }
+          this.$store.dispatch('ChangeCondition',info).then(()=>{
+            this.jump({path:'/info/memberApply'})
+          })
+
+        }else if (command=='b'){
+          if (this.villageinfo>0){
+            info=0;
+          }else {
+            info='';
+          }
+          this.$store.dispatch('ChangeCondition',info).then(()=>{
+            this.jump({path:'/info/villageApply'})
+          })
+        }else if (command=='c'){
+          if (this.storeapplyinfo>0){
+            info=0;
+          }else {
+            info='';
+          }
+          this.$store.dispatch('ChangeCondition',info).then(()=>{
+            this.jump({path:'/info/storeApply'})
+          })
+        }else {
+          if (this.withdrawinfo>0){
+            info=0;
+          }else {
+            info='';
+          }
+          this.$store.dispatch('ChangeCondition',info).then(()=>{
+            this.jump({path:'/info/withdrawApply'})
+          })
+        }
+      },
+
+
       toggleSideBar() {
         this.$store.dispatch('ToggleSideBar');
       },
@@ -86,9 +179,10 @@
     .screenfull {
       position: absolute;
       right: 90px;
-      top: 16px;
+      top: 5px;
       color: red;
     }
+
     .avatar-container {
       height: 50px;
       display: inline-block;

@@ -9,6 +9,11 @@ const getters = {
   roles: state => state.user.roles,
   setting: state => state.user.setting,
   permission_routers: state => state.permission.routers,
-  addRouters: state => state.permission.addRouters
+  addRouters: state => state.permission.addRouters,
+  memberinfo: state=>state.info.memberApply,
+  storesapplyinfo: state=>state.info.storeApply,
+  villageinfo:state=>state.info.villageApply,
+  withdrawinfo:state=>state.info.withDrawApply,
+   status: state=>state.status.condition,
 };
 export default getters;

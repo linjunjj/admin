@@ -1,6 +1,25 @@
 <template xmlns:v-popover="http://www.w3.org/1999/xhtml">
   <div class="app-container calendar-list-container">
     <div class="filter-container">
+      <el-row>
+        <el-col :span="14">
+          <el-input @keyup.enter.native="handleFilter" style="width: 230px;" class="filter-item"
+                    placeholder="请输入关键字" v-model="listQuery.title" size="small">
+          </el-input>
+
+
+          <el-select clearable style="width: 100px" class="filter-item" v-model="value" placeholder="状态"
+                     size="small">
+            <el-option v-for="item in goodStatus" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+          <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter()" size="small">搜索
+          </el-button>
+
+
+        </el-col>
+      </el-row>
+
 
     </div>
 
@@ -42,7 +61,7 @@
 
       <el-table-column align="center" label="状态" width="100">
         <template scope="scope">
-          <el-tag :type="scope.row.stutas | statusFilter">{{scope.row.stutas ? '未认证' : '已认证'}}</el-tag>
+          <el-tag :type="scope.row.stutas | statusFilter">{{scope.row.stutas | statusFilterTip }}</el-tag>
         </template>
       </el-table-column>
 
@@ -61,7 +80,7 @@
               </el-button>
             </el-row>
             <el-row style="margin-bottom: 3px;">
-              <el-button v-if="scope.row.status === 1" size="small" type="warning"
+              <el-button v-if="scope.row.status === 1 || scope.row.status === 2 " size="small" type="warning"
                          @click="handleModifyStatus(scope.row, 0)">不通过
               </el-button>
             </el-row>
@@ -108,45 +127,12 @@
           title: undefined,
           status: undefined
         },
-        goodStatus: [{label: '上架', value: 1}, {label: '下架', value: 0}],
-        data2: [{
-          value: 1,
-          label: '一级 1',
-          children: [{
-            value: 4,
-            label: '二级 1-1',
-            children: [{
-              value: 9,
-              label: '三级 1-1-1'
-            }, {
-              value: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
-        }, {
-          value: 2,
-          label: '一级 2',
-          children: [{
-            value: 5,
-            label: '二级 2-1'
-          }, {
-            value: 6,
-            label: '二级 2-2'
-          }]
-        }, {
-          value: 3,
-          label: '一级 3',
-          children: [{
-            value: 7,
-            label: '二级 3-1'
-          }, {
-            value: 8,
-            label: '二级 3-2'
-          }]
-        }],
+        goodStatus: [{label: '待审核', value: 0}, {label: '审核通过', value: 1},{label: '审核未通过', value: 2}],
+         value:'',
         checkAllTag: true,
         checkedTags: [1, 2],
         tags: tags,
+        condition:'',
         isIndeterminateTag: true,
         checkAllStatus: true,
         checkedStatuss: [0, 1],
@@ -159,18 +145,45 @@
       $(window).resize(() => {
         this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
       });
-      this.getList();
+      this.judge();
+    },
+    computed:{
+
+
     },
     filters: {
       parseTime(time) {
         return parseTime(time);
       },
       statusFilter(status) {
-        const statusMap = ['danger', 'success'];
+        const statusMap = ['primary', 'success', 'warning', 'danger', 'gray'];
+        return statusMap[status];
+      },
+      statusFilterTip(status) {
+        const statusMap = ['待审核', '审核通过', '审核未通过'];
         return statusMap[status];
       }
     },
     methods: {
+      judge(){
+        var  info='';
+        info=this.$store.getters.status;
+        console.log(info);
+        this.value=info;
+        if (info===0||info===1||info===2){
+            this.getStatusList(info);
+
+          console.log("第一个");
+
+        }else {
+//          this.$store.dispatch('ChangeCondition','').then(()=>{
+            this.getList();
+        //  })
+          console.log("第二个");
+        }
+      },
+
+
       getList() {
         this.listLoading = true;
         setTimeout((items, total) => {
@@ -184,16 +197,38 @@
           this.listLoading = false;
         }, 2000);
       },
+      getStatusList(status) {
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.status=status;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetStatusMember',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+      },
+       clearStatus(){
+        this.$store.dispatch('ChangeCondition','');
+        var info =this.$store.getters.value;
+        console.log(info);
+       },
+
       handleFilter() {
-        this.getList();
+        this.$store.dispatch('ChangeCondition',this.value).then(()=>{
+          this.judge();
+        })
       },
       handleSizeChange(val) {
         this.listQuery.limit = val;
-        this.getList();
+        this.judge();
       },
       handleCurrentChange(val) {
         this.listQuery.page = val;
-        this.getList();
+        this.judge();
       },
       handleCheckAllTagChange(event) {
         let tags = [];
@@ -228,7 +263,7 @@
         info.isauth=status;
         setTimeout(()=>{
           this.$store.dispatch('UpdaeMember',info).then((res)=>{
-            this.getList();
+            this.judge();
             this.listLoading=false;
             this.$message({
                 type:'success',
@@ -252,7 +287,7 @@
           this.listLoading=true;
           setTimeout(()=>{
             this.$store.dispatch('DeleteMember',info).then((res)=>{
-              this.getList();
+              this.judge();
               this.$message({
                 type:'success',
                 message:'删除成功'
@@ -279,10 +314,12 @@
           vm.listQuery.limit = 20;
           vm.listQuery.title = undefined;
           vm.listQuery.status = undefined;
-          vm.getList();
+          vm.judge();
         }
       });
-    }
+    },
+
+
   };
 </script>
 

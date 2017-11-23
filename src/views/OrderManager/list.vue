@@ -180,11 +180,11 @@
       },
       statusFilter(status) {
         const statusMap = ['primary', 'success', 'warning', 'danger', 'gray'];
-        return statusMap[status - 1];
+        return statusMap[status];
       },
       statusFilterTip(status) {
         const statusMap = ['待付款', '待发货', '已发货', '已取消', '已完成'];
-        return statusMap[status - 1];
+        return statusMap[status];
       }
     },
     methods: {

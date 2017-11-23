@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-
+import  axios from  'axios';
 const user = {
   state: {
     token: Cookies.get('Admin-Token'),
@@ -174,9 +174,6 @@ const user = {
     },
 
 
-
-
-
     //获取商品列表
     GetGoodsList({commit}, info) {
       return new Promise((resolve, reject)=>{
@@ -343,11 +340,11 @@ const user = {
     },
     //删除会员申请
     DeleteMember({commit},info){
-      var  id=info.id;
+
       return new Promise((resolve,reject)=>{
         axios.delete('/api/admin/deleteMemberApply',{
           params:{
-            id:id,
+            id:info.id,
           }
         }).then(function (response) {
           var  code =response.data.errorcode;
@@ -360,6 +357,29 @@ const user = {
           reject(error);
         })
       })
+    },
+    //会员状态数据获取
+    GetStatusMember({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStatusMember',{
+          params:{
+            status:info.status,
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var code=response.data.errorcode;
+          if (code=="2000"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch(()=> {
+          reject("网络错误")
+        })
+
+      })
+
     },
 
 
@@ -427,6 +447,29 @@ const user = {
         })
       })
     },
+    //村村通状态的数据获取
+    GetStatusVillage({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStatusVillage',{
+          params:{
+            status:info.status,
+            page: info.page,
+            pagesize: info.pagesize,
+
+          }
+
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }
+        }).catch(()=>{
+          reject("网络错误");
+        })
+
+      })
+    },
+
 
 
 
@@ -493,8 +536,28 @@ const user = {
         })
       })
     },
+    //商城申请状态的数据获取
+    GetStatusStoreApply({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStatusStoreApply',{
+          params:{
+            status:info.status,
+            page: info.page,
+            pagesize: info.pagesize,
 
+          }
 
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }
+        }).catch(()=>{
+          reject("网络错误");
+        })
+
+      })
+    },
 
 
 
@@ -558,6 +621,26 @@ const user = {
         }).catch((error)=>{
           reject(error)
         })
+      })
+    },
+    //提现申请状态的数据获取
+    GetStatusWithDraw({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStatusWithDraw',{
+          params:{
+            status:info.status,
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }
+        }).catch(()=>{
+          reject("网络错误");
+        })
+
       })
     },
 

@@ -24,11 +24,16 @@
       autoResize: {
         type: Boolean,
         default: true
-      }
+      },
+      data: {
+        required: true,
+        type: Object
+      },
     },
     data() {
       return {
-        chart: null
+        chart: null,
+        data:this.data,
       };
     },
     mounted() {
@@ -101,7 +106,7 @@
                   }
                 }
               },
-              data: [120, 82, 91, 154, 162, 140, 130]
+              data: this.data,
             }
         });
       }

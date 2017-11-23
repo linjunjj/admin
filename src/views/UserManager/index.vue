@@ -2,10 +2,10 @@
   <div class="dashboard-editor-container" v-loading="listLoading">
     <el-row class="btn-group">
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn light-blue-btn">今日新增用户：123</span>
+        <span class="pan-btn light-blue-btn">今日新增用户：{{todaysuer}}</span>
       </el-col>
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn green-btn">总用户：423</span>
+        <span class="pan-btn green-btn">总用户：{{sumuser}}</span>
       </el-col>
     </el-row>
 
@@ -33,11 +33,12 @@
     data() {
       return {
         data:[9, 82, 91, 6, 0, 5, 7],
-        todaysuer:'',
-        sumuser:'',
-        weekadduser:'',
-        monthadduser:'',
+        todaysuer:0,
+        sumuser:0,
+        weekadduser:[],
+        monthadduser:[],
         monthday:'',
+
       };
     },
      created(){
@@ -53,15 +54,10 @@
            this.weekadduser=res.weekUser;
            this.monthday=res.monthday;
            this.monthadduser=res.monthUser;
-         }).catch((error)=>{
-           this.listLoading = false;
-
-           this.$message.error("获取数据失败");
-
-         }),
-           this.listLoading = false;
-
+         })
+            this.listLoading=false;
          },2000);
+         this.listLoading=false;
 
        }
      },

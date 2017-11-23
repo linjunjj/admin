@@ -18,10 +18,6 @@
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter" size="small">搜索
             </el-button>
 
-
-            <el-button class="filter-item" type="primary" v-waves icon="menu" v-popover:advancedSearchPopover size="small"
-                       style="margin-left: 0;">高级搜索
-            </el-button>
           </el-col>
         </el-row>
       </div>

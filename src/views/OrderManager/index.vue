@@ -2,19 +2,19 @@
   <div class="dashboard-editor-container">
     <el-row class="btn-group">
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn light-blue-btn">今日订单：123</span>
+        <span class="pan-btn light-blue-btn">今日订单：{{todayorder}}</span>
       </el-col>
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn pink-btn">今日成交：123</span>
+        <span class="pan-btn pink-btn">今日成交：{{todaypay}}</span>
       </el-col>
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn light-blue-btn">本日成交金额：523</span>
+        <span class="pan-btn light-blue-btn">本日成交金额：{{todaymoney}}</span>
       </el-col>
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn pink-btn">总成交订单量：42</span>
+        <span class="pan-btn pink-btn">总成交订单量：{{sumorders}}</span>
       </el-col>
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn light-blue-btn">总成交金额:232</span>
+        <span class="pan-btn light-blue-btn">总成交金额:{{summoney}}</span>
       </el-col>
     </el-row>
     <el-row>
@@ -22,7 +22,7 @@
         <money-chart></money-chart>
       </el-col>
       <el-col :span="10">
-        <order-chart></order-chart>
+        <order-chart :data="orderplan"></order-chart>
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -42,7 +42,43 @@
     components: { moneyChart, visitorChart, orderChart },
     data() {
       return {
+        todayorder:0,
+        todaypay:0,
+        todaymoney:0,
+        sumorders:0,
+        summoney:0,
+       weekmoney:[],
+       weekplan:[],
+        monthday:0,
+        monthmoney:[],
+        orderplan:['45','645','342','42','49'],
       };
+    },
+    created(){
+      this.GetData();
+    },
+    methods:{
+      GetData(){
+        this.listLoading=true;
+        setTimeout(()=>{
+          this.$store.dispatch('GetOrderImage').then((res)=>{
+            this.todayorder=res.noworder;
+            this.todaypay=res.nowOrderPay;
+            this.todaymoney=res.todayMoney;
+            this.sumorders=res.orderSum;
+            this.summoney=res.moneySum;
+            this.weekmoney=res.weekMoney;
+            this.weekplan=res.weekPlan;
+            this.monthday=res.monthDay;
+            this.monthMoney=res.monthMoney;
+          })
+          this.listLoading=false;
+        },2000);
+
+      }
+
+
+
     },
     computed: {
     }

@@ -28,7 +28,7 @@ import UserList from '../views/UserManager/list.vue';
 import UserImage from  '../views/UserManager/index.vue'
 import {MemberApply, StoreApply,VillageApply,WithdrawApply} from '../views/InformManager';
 /* order manager */
-import {OrderList, EditOrder,OrderImage} from '../views/OrderManager';
+import {OrderList,OrderImage} from '../views/OrderManager';
 /* error page */
 import Err404 from '../views/Error/404.vue';
 import Err401 from '../views/Error/401.vue';
@@ -123,7 +123,6 @@ export const asyncRouterMap = [
     icon: 'fa-file-text',
     children: [
       {path: 'order-manager', component: OrderList, name: '订单列表', meta: {keepAlive: true, keepTabsView: true}},
-      {path: 'edit-order', component: EditOrder, name: '订单详情', hidden: true, meta: {keepAlive: false, keepTabsView: false}},
       {path: 'orderImage', component: OrderImage, name: '订单概览', meta: {keepAlive: false, keepTabsView: false}}
 
     ]

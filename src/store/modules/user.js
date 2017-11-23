@@ -126,6 +126,56 @@ const user = {
         })
       })
     },
+    //修改店铺的状态
+    CantrolStore({commit},info){
+      return new Promise((reslove,reject)=>{
+        axios.put('/api/admin/updateStore',
+          info,
+          {
+            headers:{
+              'Content-Type':'application/json'
+            }
+          }
+          ).then(function (response) {
+            var  code=response.data.errorcode;
+            if (code=="200"){
+              reslove(response.data.data);
+            }else {
+              reject(response.data.errormsg);
+            }
+
+        }).catch((error)=>{
+          reject(error);
+        })
+      })
+    },
+    //删除店铺
+    DeletStore({commit},info){
+      var id=info.id;
+      return new Promise((reslove,reject)=>{
+        axios.delete('/api/admin/deleteStore',{
+          params:{
+            id:id,
+          }
+        }).then(function (response) {
+          var code=response.data.errorcode;
+          if (code=="200"){
+            reslove(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch(function (error) {
+           reject(error);
+        })
+
+      })
+
+
+    },
+
+
+
+
 
     //获取商品列表
     GetGoodsList({commit}, info) {
@@ -169,6 +219,43 @@ const user = {
 
           })
     },
+    //获取订单概览
+    GetOrderImage(){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getOrderImage').then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch(()=>{
+          reject("网络错误");
+        })
+
+      })
+    },
+
+    //获取交易概览
+    GetDealImage(){
+
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getDealImage').then(function (response) {
+          var code=response.data.errorcode;
+          if(code=="200"){
+            resolve(response.data.data)
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((errir)=>{
+          reject("网络错误");
+        })
+
+      })
+    },
+
+
+
     //获取收入列表
    GetIncomeList({commit},info){
      return new Promise((resolve,reject)=>{
@@ -235,6 +322,49 @@ const user = {
       })
 
     },
+    //更改会员申请的状态
+    UpdaeMember({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.put('/api/admin/updateMemberApply',info,{
+          headers:{
+            'Content-Type':'application/json'
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error)
+        })
+      })
+    },
+    //删除会员申请
+    DeleteMember({commit},info){
+      var  id=info.id;
+      return new Promise((resolve,reject)=>{
+        axios.delete('/api/admin/deleteMemberApply',{
+          params:{
+            id:id,
+          }
+        }).then(function (response) {
+          var  code =response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg)
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+      })
+    },
+
+
+
+
     //获取村村通申请列表
     GetVillageList({commit},info){
       return new Promise((resolve,reject)=>{
@@ -257,6 +387,50 @@ const user = {
       })
 
     },
+    //更新村村通申请的状态
+    UpdateVillage({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.put('/api/admin/updateVillageApply',info,{
+          headers:{
+            'Content-Type':'application/json'
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error)
+        })
+      })
+    },
+    //村村通申请删除
+    DeletVillage({commit},info){
+      var  id=info.id;
+      return new Promise((resolve,reject)=>{
+        axios.delete('/api/admin/deleteVillage',{
+          params:{
+            id:id,
+          }
+
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error)
+        })
+      })
+    },
+
+
+
+
     //获取商城申请列表
     GetStoreApplyList({commit},info){
       return new Promise((resolve,reject)=>{
@@ -279,6 +453,50 @@ const user = {
       })
 
     },
+    //更新商城申请的状态
+    UpdateStoreApply({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.put('/api/admin/updateStoreApply',info,{
+          headers:{
+            'Content-Type':'application/json'
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error)
+        })
+      })
+    },
+    //商城申请删除
+    DeletStoreApply({commit},info){
+      var  id=info.id;
+      return new Promise((resolve,reject)=>{
+        axios.delete('/api/admin/deleteStoreApply',{
+          params:{
+            id:id,
+          }
+
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error)
+        })
+      })
+    },
+
+
+
+
 
     //获取提现申请列表
     GetWithDrawList({commit},info){
@@ -301,6 +519,46 @@ const user = {
 
       })
 
+    },
+//    更新提现申请状态
+    UpdateWithDrawApply({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.put('/api/admin/updateWithDrawApply',info,{
+          headers:{
+            'Content-Type':'application/json'
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error)
+        })
+      })
+    },
+    //提现申请删除
+    DeleteWithDrawApply({commit},info){
+      var  id=info.id;
+      return new Promise((resolve,reject)=>{
+        axios.delete('/api/admin/deleteWithDraw',{
+          params:{
+            id:id,
+          }
+
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error)
+        })
+      })
     },
 
 //获取轮播图列表
@@ -325,6 +583,52 @@ const user = {
       })
 
     },
+    //修改轮播图的状态
+    ControlBanner({commit},info){
+      return new Promise((reslove,reject)=>{
+        axios.put('/api/banner/updateBanner',
+          info,{
+          headers:{
+            'Content-Type': 'application/json',
+          }
+          }
+          ).then(function (response) {
+           var  code=response.data.errorcode;
+           if (code=="200"){
+             reslove(response.data.data);
+           }else {
+             reject(response.data.errormsg);
+           }
+        }).catch((error)=>{
+          reject(error);
+        })
+      })
+    },
+    //删除轮播图
+    DeleteBanner({commit},info){
+      var id=info.id;
+      return new Promise((reslove,reject)=>{
+        axios.delete('/api/banner/deletebaner',{
+          params:{
+            id:id,
+          }
+        }).then(function (response) {
+          var code=response.data.errorcode;
+          if (code=="200"){
+            reslove(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+
+        }).catch((error)=>{
+          reject(error);
+        })
+      })
+    },
+
+
+
+
     // 管理员登入
     LoginByAccount({ commit }, userInfo) {
       return new Promise((resolve, reject) => {

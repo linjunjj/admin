@@ -221,9 +221,55 @@
         this.checkAllStatus = checkedCount === this.goodStatus.length;
         this.isIndeterminateStatus = checkedCount > 0 && checkedCount < this.goodStatus.length;
       },
-      handleCreate() {
-        this.jump({path: '/good/add-good'});
-      }
+      handleModifyStatus(row, status) {
+        this.listLoading=true;
+        var  info={};
+        info.id=row.id;
+        info.isauth=status;
+        setTimeout(()=>{
+          this.$store.dispatch('UpdaeMember',info).then((res)=>{
+            this.getList();
+            this.listLoading=false;
+            this.$message({
+                type:'success',
+                message:'成功',
+              }
+            )
+
+          }).catch((error)=>[
+            this.listLoading=false,
+            this.$message.error("失败"),
+          ])
+        },2000)
+      },
+
+      handleDelete(info){
+        this.$confirm('此操作将永远删除此会员申请，是否继续？','温馨提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(()=>{
+          this.listLoading=true;
+          setTimeout(()=>{
+            this.$store.dispatch('DeleteMember',info).then((res)=>{
+              this.getList();
+              this.$message({
+                type:'success',
+                message:'删除成功'
+              })
+            }).catch((error)=>{
+              this.$message.error("删除失败");
+            })
+            this.listLoading=false;
+          },2000);
+
+        }).catch(()=>{
+          this.$message({
+            type:'info',
+            message:'已取消删除'
+          });
+        });
+      },
     },
     beforeRouteEnter (to, from, next) {
       next(vm => {

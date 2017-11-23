@@ -19,11 +19,21 @@
       height: {
         type: String,
         default: '300px'
-      }
+      },
+      weekincome: {
+        required: true,
+        type: Object
+      },
+      weekoutcome: {
+        required: true,
+        type: Object
+      },
     },
     data() {
       return {
-        chart: null
+        chart: null,
+        weekincome:this.weekincome,
+        weekoutcome:this.weekoutcome,
       };
     },
     mounted() {
@@ -42,7 +52,7 @@
 
         this.chart.setOption({
           title: {
-            text: '本月出入金额',
+            text: '本周出入金额',
             x: 'center'
           },
           tooltip: {
@@ -72,19 +82,13 @@
             type: 'bar',
             stack: 'vistors',
             barWidth: '60%',
-            data: [79, 52, 200, 334, 390, 330, 220]
+            data: this.weekincome
           }, {
             name: 'pageB',
             type: 'bar',
             stack: 'vistors',
             barWidth: '60%',
-            data: [80, 52, 200, 334, 390, 330, 220]
-          }, {
-            name: 'pageC',
-            type: 'bar',
-            stack: 'vistors',
-            barWidth: '60%',
-            data: [30, 52, 200, 334, 390, 330, 220]
+            data: this.weekoutcome,
           }]
         });
       }

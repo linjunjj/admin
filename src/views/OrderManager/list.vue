@@ -18,72 +18,8 @@
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter" size="small">搜索
             </el-button>
 
-            <!--高级搜索popover-->
-            <el-popover
-              ref="advancedSea2rchPopover"
-              placement="top-start"
-              width="1000"
-              trigger="click"
-              v-model="showAdvancedSearchPopover">
-              <el-form label-width="80px" label-position="right">
-                <el-row>
-                  <el-col :span="10">
-                    <el-form-item label="关键词">
-                      <el-input size="small" placeholder="请输入订单号" style="width: 300px;"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="下单时间">
-                      <el-date-picker
-                        type="datetimerange"
-                        :picker-options="dateTimePickerOptions"
-                        placeholder="选择时间范围"
-                        clearable
-                        align="right">
-                      </el-date-picker>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
 
-                <el-row>
-                  <el-col :span="10">
-                    <el-form-item label="收货人信息">
-                      <el-input size="small" placeholder="请输入收货人/收货电话" style="width: 300px;"></el-input>
-                    </el-form-item>
-                  </el-col>
 
-                  <el-col :span="10">
-                    <el-form-item label="商品信息">
-                      <el-input size="small" placeholder="请输入商品名称/编码" style="width: 300px;"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-
-                <el-row>
-                  <el-col :span="24">
-                    <el-form-item label="订单状态">
-                      <el-checkbox size="small" :indeterminate="isIndeterminateStatus" v-model="checkAllStatus"
-                                   @change="handleCheckAllStatusChange">全选
-                      </el-checkbox>
-                      <el-checkbox-group v-model="checkedStatuss" @change="handleCheckedStatusChange"
-                                         style="display: inline-block;margin-left: 15px;">
-                        <el-checkbox size="small" v-for="status in orderStatus" :label="status.value" :key="status.value">
-                          {{status.label}}
-                        </el-checkbox>
-                      </el-checkbox-group>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-
-                <el-form-item>
-                  <el-button type="primary" size="small">确定</el-button>
-                  <el-button size="small" @click="showAdvancedSearchPopover = false">取消</el-button>
-                </el-form-item>
-              </el-form>
-            </el-popover>
-            <el-button class="filter-item" type="primary" v-waves icon="menu" v-popover:advancedSearchPopover size="small"
-                       style="margin-left: 0;">高级搜索
-            </el-button>
           </el-col>
         </el-row>
       </div>
@@ -179,8 +115,6 @@
 <script>
   import {parseTime} from '../../assets/js/tool';
   import keepAliveList from '../keepAliveList';
-
-
 
 
   export default {

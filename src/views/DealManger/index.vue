@@ -1,20 +1,17 @@
 <template>
-  <div class="dashboard-editor-container">
+  <div class="dashboard-editor-container" v-loading="listLoading">
     <el-row class="btn-group">
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn light-blue-btn">本日支出金额：523</span>
+        <span class="pan-btn light-blue-btn">本日支出金额：{{todayoutcome}}</span>
       </el-col>
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn pink-btn">本日收入金额：123</span>
+        <span class="pan-btn pink-btn">本日收入金额：{{todayincome}}</span>
       </el-col>
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn light-blue-btn">总金额:232</span>
+        <span class="pan-btn green-btn">总收入金额:{{sumincome}}</span>
       </el-col>
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn green-btn">总收入金额:232</span>
-      </el-col>
-      <el-col :span="4" class='text-center'>
-        <span class="pan-btn light-blue-btn">总支出金额:232</span>
+        <span class="pan-btn light-blue-btn">总支出金额:{{sumoutcome}}</span>
       </el-col>
     </el-row>
     <el-row>
@@ -22,7 +19,7 @@
         <money-chart></money-chart>
       </el-col>
       <el-col :span="12">
-        <order-chart></order-chart>
+        <order-chart :data="monthcome"></order-chart>
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -42,8 +39,44 @@
     components: { moneyChart, visitorChart, orderChart },
     data() {
       return {
+        todayoutcome:0,
+        todayincome:0,
+        sumincome:0,
+        sumoutcome:0,
+        weekIncome:[],
+        weekOutcome:[],
+        monthday:0,
+        monthcome:[],
+        monthMeneyincome:[],
+        monthMeneyoutcome:[],
       };
     },
+    created(){
+      this.data();
+    },
+    methods:{
+      GetData(){
+        this.listLoading=true;
+        setTimeout(()=>{
+          this.$store.dispatch('GetDealImage').then((res)=>{
+            this.todayoutcome=res.todayoutcome;
+            this.todayincome=res.todayincome;
+            this.sumincome=res.income;
+            this.sumoutcome=res.outcome;
+            this.weekIncome=res.weekIncome;
+            this.weekOutcome=res.weekOutcome;
+            this.monthday=res.moneyDay;
+            this.monthcome=res.monthcome;
+            this.monthMeneyincome=res.monthMeneyincome;
+            this.monthMeneyoutcome=res.monthMeneyoutcome;
+          })
+          this.listLoading=false;
+
+
+        },2000)
+      }
+    },
+
     computed: {
     }
   };

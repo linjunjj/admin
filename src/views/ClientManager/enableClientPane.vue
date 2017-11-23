@@ -128,6 +128,54 @@
           this.$emit('updateCount', this.total);
         }, 2000);
       },
+      handleModifyStatus(row, status) {
+        this.listLoading=true;
+        var  info={};
+        info.id=row.id;
+        info.isauth=status;
+        setTimeout(()=>{
+          this.$store.dispatch('CantrolStore',info).then((res)=>{
+            this.getList();
+            this.listLoading=false;
+            this.$message({
+                type:'success',
+                message:'成功',
+              }
+            )
+
+          }).catch((error)=>[
+            this.listLoading=false,
+            this.$message.error("失败"),
+          ])
+        },2000)
+      },
+      handleDelete(info){
+        this.$confirm('此操作将永远删除此店铺，是否继续？','温馨提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(()=>{
+          this.listLoading=true;
+          setTimeout(()=>{
+            this.$store.dispatch('DeletStore',info).then((res)=>{
+              this.getList();
+              this.$message({
+                type:'success',
+                message:'删除成功'
+              })
+            }).catch((error)=>{
+              this.$message.error("删除失败");
+            })
+            this.listLoading=false;
+          },2000);
+
+        }).catch(()=>{
+          this.$message({
+            type:'info',
+            message:'已取消删除'
+          });
+        });
+      },
       handleSizeChange(val) {
         this.listQuery.limit = val;
         this.getList();

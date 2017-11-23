@@ -19,11 +19,19 @@
       height: {
         type: String,
         default: '300px'
-      }
+      },
+      data: {
+        required: true,
+        type: Object
+      },
+
+
     },
     data() {
       return {
-        chart: null
+        chart: null,
+        data:this.data,
+
       };
     },
     mounted() {
@@ -39,7 +47,8 @@
     methods: {
       initChart() {
         this.chart = echarts.init(this.$el, 'macarons');
-
+         console.log(this.data)
+        console.log(this.data[1]),
         this.chart.setOption({
           title: {
             text: '本周订单进度',
@@ -60,12 +69,13 @@
               name: '本周订单进度',
               type: 'pie',
               roseType: 'radius',
+
               data: [
-                { value: 320, name: '已完成' },
-                { value: 240, name: '待付款' },
-                { value: 149, name: '待发货' },
-                { value: 100, name: '已发货' },
-                { value: 59, name: '已取消' }
+                { value: this.data[0], name: '已完成' },
+                { value: this.data[1], name: '待付款' },
+                { value: this.data[2], name: '待发货' },
+                { value: this.data[3], name: '已发货' },
+                { value: this.data[4], name: '已取消' }
               ]
             }
           ]

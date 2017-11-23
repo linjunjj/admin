@@ -19,11 +19,16 @@
       height: {
         type: String,
         default: '300px'
-      }
+      },
+      data: {
+        required: true,
+        type: Object
+      },
     },
     data() {
       return {
-        chart: null
+        chart: null,
+        data:this.data
       };
     },
     mounted() {
@@ -61,8 +66,8 @@
               type: 'pie',
               roseType: 'radius',
               data: [
-                { value: 320, name: '收入' },
-                { value: 240, name: '支出' },
+                { value: this.data[0], name: '收入' },
+                { value: this.data[1], name: '支出' },
               ]
             }
           ]

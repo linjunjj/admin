@@ -31,60 +31,60 @@ const user = {
     }
   },
   actions: {
-        //得到用户列表
-        GetUserList({commit},info){
-          return new Promise((resolve,reject)=>{
-            axios.get('/api/admin/getUserAll',{
-              params:{
-                  page:info.page,
-                  pagesize:info.pagesize,
-              }
-            }).then(function (response) {
-              var  code=response.data.errorcode;
-              if(code=="200"){
-                resolve(response.data.data);
-              } else {
-                reject(response.data.errormsg);
-              }
-            }).catch((error)=>{
-              reject("网络失败");
-            })
-          })
-        },
+    //得到用户列表
+    GetUserList({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getUserAll',{
+          params:{
+            page:info.page,
+            pagesize:info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if(code=="200"){
+            resolve(response.data.data);
+          } else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject("网络失败");
+        })
+      })
+    },
     //获取用户概览
     GetUserImage(){
-       return new Promise((resolve,reject)=>{
-         axios.get('/api/admin/getUserAllImage').then(function (responce) {
-            var code=response.data.errorcode;
-            if (code=="200"){
-              resolve(response.data.data);
-            }else {
-              reject(response.data.errormsg);
-            }
-         }).catch((error)=>{
-           reject(error);
-         })
-       })
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getUserAllImage').then(function (responce) {
+          var code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+      })
     },
     //获取店家列表
     GetStoreList({commit},info){
-          return new Promise((resolve,reject)=>{
-            axios.get('/api/admin/getStoreAll',{
-              params:{
-                page:info.page,
-                  pagesize:info.pagesize,
-              }
-            }).then(function (response) {
-              var  code=response.data.errorcode;
-              if (code=="200"){
-                resolve(response.data.data);
-              }else {
-                reject(response.data.errormsg);
-              }
-            }).catch((error)=>{
-              reject(error);
-            })
-          })
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStoreAll',{
+          params:{
+            page:info.page,
+            pagesize:info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+      })
     },
     //获取启用商家列表
     GetStoreStart({commit},info){
@@ -136,13 +136,13 @@ const user = {
               'Content-Type':'application/json'
             }
           }
-          ).then(function (response) {
-            var  code=response.data.errorcode;
-            if (code=="200"){
-              reslove(response.data.data);
-            }else {
-              reject(response.data.errormsg);
-            }
+        ).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            reslove(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
 
         }).catch((error)=>{
           reject(error);
@@ -165,7 +165,7 @@ const user = {
             reject(response.data.errormsg);
           }
         }).catch(function (error) {
-           reject(error);
+          reject(error);
         })
 
       })
@@ -177,44 +177,44 @@ const user = {
     //获取商品列表
     GetGoodsList({commit}, info) {
       return new Promise((resolve, reject)=>{
-      axios.get('/api/admin/getGoodsAll', {
-        params: {
-          page: info.page,
-          pagesize: info.pagesize,
-        }
+        axios.get('/api/admin/getGoodsAll', {
+          params: {
+            page: info.page,
+            pagesize: info.pagesize,
+          }
 
-      }).then(function (response) {
-        var  code=response.data.errorcode;
-        if (code=="200"){
-             resolve(response.data.data);
-        }else {
-          reject(response.data.errormsg)
-        }
-      }).catch((error)=>{
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg)
+          }
+        }).catch((error)=>{
           reject(error);
+        })
       })
-    })
     },
     //获取所有订单
     GetOrderList({commit},info){
-          return new Promise((resolve,reject)=>{
-            axios.get('/api/admin/getOrderAll',{
-              params:{
-                page: info.page,
-                pagesize: info.pagesize,
-              }
-            }).then(function (response) {
-              var  code=response.data.errorcode;
-              if (code=="200"){
-                resolve(response.data.data);
-              }else {
-                reject(response.data.errormsg);
-              }
-            }).catch((error)=>{
-              reject(error);
-            })
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getOrderAll',{
+          params:{
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
 
-          })
+      })
     },
     //获取订单概览
     GetOrderImage(){
@@ -254,27 +254,48 @@ const user = {
 
 
     //获取收入列表
-   GetIncomeList({commit},info){
-     return new Promise((resolve,reject)=>{
-       axios.get('/api/admin/getIncomeList',{
-         params:{
-           page: info.page,
-           pagesize: info.pagesize,
-         }
-       }).then(function (response) {
-         var  code=response.data.errorcode;
-         if (code=="200"){
-           resolve(response.data.data);
-         }else {
-           reject(response.data.errormsg);
-         }
-       }).catch((error)=>{
-         reject(error);
-       })
+    GetIncomeList({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getIncomeList',{
+          params:{
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
 
-     })
+      })
 
-   },
+    },
+    //获取收入状态
+    GetStatusIncome({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStatusIncome',{
+          params:{
+            status:info.status,
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch(()=> {
+          reject("网络错误")
+        })
+      })
+    },
     //获取支出列表
     GetOutcomeList({commit},info){
       return new Promise((resolve,reject)=>{
@@ -295,8 +316,30 @@ const user = {
         })
 
       })
-
     },
+    //获取支出状态
+    GetStatusOutcome({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStatusOutcome',{
+          params:{
+            status:info.status,
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch(()=> {
+          reject("网络错误")
+        })
+      })
+    },
+
+
     //获取会员申请列表
     GetMemberList({commit},info){
       return new Promise((resolve,reject)=>{
@@ -369,7 +412,7 @@ const user = {
           }
         }).then(function (response) {
           var code=response.data.errorcode;
-          if (code=="2000"){
+          if (code=="200"){
             resolve(response.data.data);
           }else {
             reject(response.data.errormsg);
@@ -671,17 +714,17 @@ const user = {
       return new Promise((reslove,reject)=>{
         axios.put('/api/banner/updateBanner',
           info,{
-          headers:{
-            'Content-Type': 'application/json',
+            headers:{
+              'Content-Type': 'application/json',
+            }
           }
+        ).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            reslove(response.data.data);
+          }else {
+            reject(response.data.errormsg);
           }
-          ).then(function (response) {
-           var  code=response.data.errorcode;
-           if (code=="200"){
-             reslove(response.data.data);
-           }else {
-             reject(response.data.errormsg);
-           }
         }).catch((error)=>{
           reject(error);
         })

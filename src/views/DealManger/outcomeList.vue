@@ -4,7 +4,7 @@
       <div class="filter-container" v-if="!selectOrders.length">
         <el-row>
           <el-col :span="14">
-            <el-select clearable style="width: 100px" class="filter-item" v-model="listQuery.status" placeholder="状态"
+            <el-select clearable style="width: 100px" class="filter-item" v-model="value" placeholder="状态"
                        size="small">
               <el-option v-for="item in orderStatus" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
@@ -18,72 +18,7 @@
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter" size="small">搜索
             </el-button>
 
-            <!--高级搜索popover-->
-            <el-popover
-              ref="advancedSea2rchPopover"
-              placement="top-start"
-              width="1000"
-              trigger="click"
-              v-model="showAdvancedSearchPopover">
-              <el-form label-width="80px" label-position="right">
-                <el-row>
-                  <el-col :span="10">
-                    <el-form-item label="关键词">
-                      <el-input size="small" placeholder="请输入订单号" style="width: 300px;"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="下单时间">
-                      <el-date-picker
-                        type="datetimerange"
-                        :picker-options="dateTimePickerOptions"
-                        placeholder="选择时间范围"
-                        clearable
-                        align="right">
-                      </el-date-picker>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
 
-                <el-row>
-                  <el-col :span="10">
-                    <el-form-item label="收货人信息">
-                      <el-input size="small" placeholder="请输入收货人/收货电话" style="width: 300px;"></el-input>
-                    </el-form-item>
-                  </el-col>
-
-                  <el-col :span="10">
-                    <el-form-item label="商品信息">
-                      <el-input size="small" placeholder="请输入商品名称/编码" style="width: 300px;"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-
-                <el-row>
-                  <el-col :span="24">
-                    <el-form-item label="订单状态">
-                      <el-checkbox size="small" :indeterminate="isIndeterminateStatus" v-model="checkAllStatus"
-                                   @change="handleCheckAllStatusChange">全选
-                      </el-checkbox>
-                      <el-checkbox-group v-model="checkedStatuss" @change="handleCheckedStatusChange"
-                                         style="display: inline-block;margin-left: 15px;">
-                        <el-checkbox size="small" v-for="status in orderStatus" :label="status.value" :key="status.value">
-                          {{status.label}}
-                        </el-checkbox>
-                      </el-checkbox-group>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-
-                <el-form-item>
-                  <el-button type="primary" size="small">确定</el-button>
-                  <el-button size="small" @click="showAdvancedSearchPopover = false">取消</el-button>
-                </el-form-item>
-              </el-form>
-            </el-popover>
-            <el-button class="filter-item" type="primary" v-waves icon="menu" v-popover:advancedSearchPopover size="small"
-                       style="margin-left: 0;">高级搜索
-            </el-button>
           </el-col>
         </el-row>
       </div>
@@ -171,7 +106,8 @@
           orderId: undefined,
           status: undefined
         },
-        orderStatus: [{label: '未支付', value: 1},{label: '已支付', value: 5}],
+        orderStatus: [{label: '未支付', value: 0},{label: '已支付', value: 1}],
+        value:'',
         checkAllStatus: true,
         checkedStatuss: [0, 1],
         isIndeterminateStatus: false,
@@ -211,7 +147,7 @@
       $(window).resize(() => {
         this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
       });
-      this.getList();
+      this.judge();
     },
     filters: {
       parseTime(time) {
@@ -227,7 +163,25 @@
       }
     },
     methods: {
+      judge(){
+        var  info='';
+        info=this.$store.getters.status;
+        console.log(info);
+        this.value=info;
+        if (info===0||info===1||info===2){
+          this.getStatusList(info);
+
+          console.log("第一个");
+
+        }else {
+//          this.$store.dispatch('ChangeCondition','').then(()=>{
+          this.getList();
+          //  })
+          console.log("第二个");
+        }
+      },
       getList() {
+
         this.listLoading = true;
         setTimeout((items, total) => {
           var info={};
@@ -242,16 +196,33 @@
           this.listLoading = false;
         }, 2000);
       },
+      getStatusList(status) {
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.status=status;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetStatusOutcome',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+      },
+
       handleFilter() {
-        this.getList();
+        this.$store.dispatch('ChangeCondition',this.value).then(()=>{
+          this.judge();
+        })
       },
       handleSizeChange(val) {
         this.listQuery.limit = val;
-        this.getList();
+        this.judge();
       },
       handleCurrentChange(val) {
         this.listQuery.page = val;
-        this.getList();
+        this.judge();
       },
       handleCheckAllStatusChange(event) {
         let statuss = [];
@@ -284,7 +255,7 @@
           vm.listQuery.limit = 20;
           vm.listQuery.title = undefined;
           vm.listQuery.status = undefined;
-          vm.getList();
+          vm.judge();
         }
       });
     }

@@ -4,7 +4,7 @@
       <div class="filter-container" v-if="!selectOrders.length">
         <el-row>
           <el-col :span="14">
-            <el-select clearable style="width: 100px" class="filter-item" v-model="listQuery.status" placeholder="状态"
+            <el-select clearable style="width: 100px" class="filter-item" v-model="value" placeholder="状态"
                        size="small">
               <el-option v-for="item in orderStatus" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
@@ -17,8 +17,6 @@
 
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter" size="small">搜索
             </el-button>
-
-
 
           </el-col>
         </el-row>
@@ -132,7 +130,7 @@
           orderId: undefined,
           status: undefined
         },
-        orderStatus: [{label: '待付款', value: 1}, {label: '待发货', value: 2}, {label: '已发货', value: 3}, {label: '已取消', value: 4}, {label: '已完成', value: 5}],
+        orderStatus: [{label: '待付款', value: 0}, {label: '待发货', value: 1}, {label: '已发货', value: 2}, {label: '已取消', value: 3}, {label: '已完成', value: 4}],
         checkAllStatus: true,
         checkedStatuss: [0, 1],
         isIndeterminateStatus: false,
@@ -172,7 +170,7 @@
       $(window).resize(() => {
         this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
       });
-      this.getList();
+      this.judge();
     },
     filters: {
       parseTime(time) {
@@ -188,6 +186,24 @@
       }
     },
     methods: {
+      judge(){
+        var  info='';
+        info=this.$store.getters.status;
+        console.log(info);
+        this.value=info;
+        if (info===0||info===1||info===2){
+          this.getStatusList(info);
+
+          console.log("第一个");
+
+        }else {
+//          this.$store.dispatch('ChangeCondition','').then(()=>{
+          this.getList();
+          //  })
+          console.log("第二个");
+        }
+      },
+
       getList() {
         this.listLoading = true;
         setTimeout((items, total) => {
@@ -201,16 +217,34 @@
           this.listLoading = false;
         }, 2000);
       },
+      getStatusList(status) {
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.status=status;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetStatusOrder',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+      },
+
       handleFilter() {
-        this.getList();
+        console.log(this.value);
+        this.$store.dispatch('ChangeCondition',this.value).then(()=>{
+          this.judge();
+        })
       },
       handleSizeChange(val) {
         this.listQuery.limit = val;
-        this.getList();
+        this.judge();
       },
       handleCurrentChange(val) {
         this.listQuery.page = val;
-        this.getList();
+        this.judge();
       },
       handleCheckAllStatusChange(event) {
         let statuss = [];
@@ -243,7 +277,7 @@
           vm.listQuery.limit = 20;
           vm.listQuery.title = undefined;
           vm.listQuery.status = undefined;
-          vm.getList();
+          vm.judge();
         }
       });
     }

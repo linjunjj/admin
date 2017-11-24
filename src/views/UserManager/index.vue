@@ -11,7 +11,7 @@
 
     <el-row>
       <el-col :span="24">
-        <money-chart></money-chart>
+        <money-chart :data="weekadduser"></money-chart>
       </el-col>
     </el-row>
 

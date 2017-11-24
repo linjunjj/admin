@@ -8,6 +8,20 @@
           </el-button-group>
         </el-col>
 
+          <el-col :span="14">
+            <el-input @keyup.enter.native="handleFilter" style="width: 230px;" class="filter-item"
+                      placeholder="请输入关键字" v-model="listQuery.title" size="small">
+            </el-input>
+            <el-select clearable style="width: 100px" class="filter-item" v-model="value" placeholder="状态"
+                       size="small">
+              <el-option v-for="item in goodStatus" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
+            <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter()" size="small">搜索
+            </el-button>
+
+
+          </el-col>
       </el-row>
 
     </div>
@@ -101,8 +115,8 @@
           title: undefined,
           status: undefined
         },
-        goodStatus: [{label: '上架', value: 1}, {label: '下架', value: 0}],
-
+        goodStatus: [{label: '未认证', value: 0}, {label: '已认证', value: 1}],
+          value:'',
         checkAllTag: true,
         checkedTags: [1, 2],
         isIndeterminateTag: true,
@@ -117,7 +131,7 @@
       $(window).resize(() => {
         this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
       });
-      this.getList();
+      this.judge();
     },
     filters: {
       parseTime(time) {
@@ -129,6 +143,21 @@
       }
     },
     methods: {
+      judge(){
+        var  info='';
+        info=this.$store.getters.status;
+        console.log(info);
+        this.value=info;
+        if (info===0||info===1||info===2){
+          this.getStatusList(info);
+
+
+        }else {
+//          this.$store.dispatch('ChangeCondition','').then(()=>{
+          this.getList();
+          //  })
+        }
+      },
       getList() {
         this.listLoading = true;
         setTimeout((items, total) => {
@@ -142,16 +171,33 @@
           this.listLoading = false;
         }, 2000);
       },
+      getStatusList(status) {
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.status=status;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetStatusVillage',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+      },
+
       handleFilter() {
-        this.getList();
+        this.$store.dispatch('ChangeCondition',this.value).then(()=>{
+          this.judge();
+        })
       },
       handleSizeChange(val) {
         this.listQuery.limit = val;
-        this.getList();
+        this.judge();
       },
       handleCurrentChange(val) {
         this.listQuery.page = val;
-        this.getList();
+        this.judge();
       },
 
 
@@ -173,7 +219,7 @@
           vm.listQuery.limit = 20;
           vm.listQuery.title = undefined;
           vm.listQuery.status = undefined;
-          vm.getList();
+          vm.judge();
         }
       });
     }

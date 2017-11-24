@@ -169,13 +169,11 @@
         if (info===0||info===1||info===2){
           this.getStatusList(info);
 
-          console.log("第一个");
 
         }else {
 //          this.$store.dispatch('ChangeCondition','').then(()=>{
           this.getList();
           //  })
-          console.log("第二个");
         }
       },
       getList() {

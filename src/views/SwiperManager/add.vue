@@ -6,127 +6,40 @@
         </el-button>
         <el-button type="warning" @click="cancel()">取消</el-button>
       </sticky>
-      
+
       <div class="createPost-main-container">
-        <el-form-item label="轮播图名称" prop="name">
-          <el-col :span="11">
-            <el-input v-model="postForm.name"></el-input>
-          </el-col>
-        </el-form-item>
-  
-        <el-form-item label="轮播图链接" prop="linkType">
+
+
+        <el-form-item label="是否启用" prop="linkType">
           <el-col :span="11" >
-            <el-select v-model="postForm.linkType" placeholder="请选择轮播图链接类型"  >
-              <el-option label="列表广告" :value="1"></el-option>
-              <el-option label="单品广告" :value="2"></el-option>
-              <el-option label="外部链接" :value="3"></el-option>
+            <el-select v-model="postForm.linkType" placeholder="请选择轮播图状态"  >
+              <el-option label="不启用" :value="0"></el-option>
+              <el-option label="启用" :value="1"></el-option>
             </el-select>
           </el-col>
         </el-form-item>
-  
-        <el-form-item label="轮播图设置" prop="image_uri">
+
+        <el-form-item label="轮播图资源" prop="image_uri">
           <el-col :span="24" >
-            <crop-and-upload v-model="postForm.image_uri" :preview-size="{width: 720, height: 288}"></crop-and-upload>
+            <el-upload
+              class="upload-demo"
+              ref="upload"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :file-list="fileList"
+              :limit="4"
+              :before-upload="beforeAvatarUpload"
+              :auto-upload="false">
+              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+
+            </el-upload>
           </el-col>
         </el-form-item>
-        
+
       </div>
     </el-form>
-  
-    <el-tabs v-show="postForm.linkType === 1" type="border-card" style="margin: 20px;">
-      <el-tab-pane label="多个商品选择">
-        <div class="filter-container">
-          <el-row>
-            <el-col :span="12">
-              <el-button-group>
-                <el-button size="small" type="success" icon="plus" @click="showMultiSelectGoodListDialog = true">新增</el-button>
-                <el-button size="small" type="danger" icon="delete">删除</el-button>
-              </el-button-group>
-            </el-col>
-          </el-row>
-  
-          <el-table :data="goodMultiList" height="400" fit highlight-current-row style="width: 100%;margin-top: 10px;">
-            <el-table-column  align="center"
-                              type="selection"
-                              width="55">
-            </el-table-column>
-  
-            <el-table-column align="center" width="120" label="商品主图">
-              <template scope="scope">
-                <img :src="scope.row.url" style="width: 120px;height: 100px;padding-top: 5px;"/>
-              </template>
-            </el-table-column>
-            
-            <el-table-column align="center" min-width="200" label="商品名称">
-              <template scope="scope">
-                <span class="link-type">{{scope.row.title}}</span>
-              </template>
-            </el-table-column>
-  
-            <el-table-column align="center" width="200" label="商品编码">
-              <template scope="scope">
-                <span class="link-type">{{scope.row.id}}</span>
-              </template>
-            </el-table-column>
-    
-            <el-table-column align="center" label="状态" width="100">
-              <template scope="scope">
-                <el-tag :type="scope.row.status | statusFilter">{{scope.row.status ? '可售':'停售'}}</el-tag>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
-  
-    <el-tabs v-show="postForm.linkType === 2" type="border-card" style="margin: 20px;">
-      <el-tab-pane label="单个商品选择">
-        <div class="filter-container">
-          <el-row>
-            <el-col :span="12">
-              <el-button-group>
-                <el-button size="small" type="success" icon="plus" @click="showSingleSelectGoodDialogDialog = true">新增</el-button>
-                <el-button size="small" type="danger" icon="delete">删除</el-button>
-              </el-button-group>
-            </el-col>
-          </el-row>
-      
-          <el-table :data="goodSingleList" height="400" fit highlight-current-row style="width: 100%;margin-top: 10px;">
-            <el-table-column align="center" width="120" label="商品主图">
-              <template scope="scope">
-                <img :src="scope.row.url" style="width: 120px;height: 100px;padding-top: 5px;"/>
-              </template>
-            </el-table-column>
-        
-            <el-table-column align="center" min-width="200" label="商品名称">
-              <template scope="scope">
-                <span class="link-type">{{scope.row.title}}</span>
-              </template>
-            </el-table-column>
-        
-            <el-table-column align="center" width="200" label="商品编码">
-              <template scope="scope">
-                <span class="link-type">{{scope.row.id}}</span>
-              </template>
-            </el-table-column>
-        
-            <el-table-column align="center" label="状态" width="100">
-              <template scope="scope">
-                <el-tag :type="scope.row.status | statusFilter">{{scope.row.status ? '可售':'停售'}}</el-tag>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
-  
-    <el-tabs v-show="postForm.linkType === 3" type="border-card" style="margin: 20px;">
-      <el-tab-pane label="外部链接">外部链接</el-tab-pane>
-    </el-tabs>
-    
-    <multi-select-good-list-dialog :selected-good-list ="goodMultiList" :show-dialog="showMultiSelectGoodListDialog" @closeDialog="showMultiSelectGoodListDialog = false" @submitSelectGood="submitMutliSelectGood"></multi-select-good-list-dialog>
-    <single-select-good-dialog :show-dialog="showSingleSelectGoodDialogDialog" @closeDialog="showSingleSelectGoodDialogDialog = false" @submitSelectGood="submitSingleSelectGood"></single-select-good-dialog>
-  
+
     <el-tooltip placement="top" content="回到顶部">
       <back-to-top transitionName="fade" :visibilityHeight="300" :backPosition="50"></back-to-top>
     </el-tooltip>
@@ -138,7 +51,7 @@
   import Sticky from '../../components/Sticky/index.vue';
   import {CropAndUpload} from '../../components/ImageUpload';
   import {SingleSelectGoodDialog, MultiSelectGoodListDialog} from '../../components/GoodListDialog/index';
-  
+
   export default {
     name: 'AddSwiper',
     components: {
@@ -184,11 +97,41 @@
       }
     },
     methods: {
+      submitUpload() {
+        this.$refs.upload.submit();
+      },
       submitForm() {
-        this.$router.go(-1);
+         this.listLoading=true;
+         setTimeout(()=>{
+           this.submitUpload();
+         })
       },
       cancel() {
         this.$router.go(-1);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        let fd = new FormData();
+        fd.append('status', this.postForm.linkType)
+        fd.append('file', file)
+        this.$http.post('/api/banner/uploadBanner', fd).then((res) => {
+          console.log(res)
+          if (res.data.errorcode=="200"){
+            this.listLoading = false;
+            this.cancel();
+          }else {
+            this.$message.error("上传失败");
+          }
+        });
+        return isJPG && isLt2M;
       },
       submitMutliSelectGood(selectGoodList) {
         this.goodMultiList.splice(0, this.goodMultiList.length, ...selectGoodList);
@@ -201,7 +144,7 @@
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
   @import "../../assets/css/mixin.scss";
-  
+
   .title-prompt {
     position: absolute;
     right: 0px;
@@ -209,7 +152,7 @@
     top: 10px;
     color: #ff4949;
   }
-  
+
   .createPost-container {
     position: relative;
     .createPost-main-container {

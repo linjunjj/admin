@@ -1,13 +1,7 @@
 <template>
   <div class="app-container calendar-list-container">
-    <el-tree
-      :data="data2"
-      :props="defaultProps"
-      node-key="value"
-      default-expand-all
-      :expand-on-click-node="false"
-      :render-content="renderContent">
-    </el-tree>
+
+    <el-tree :data="data2" :props="defaultProps" @node-click="handleNodeClick"  node-key="value" ></el-tree>
 
     <el-dialog :title="isNewCategoryDialog? '新增分类':'编辑分类'" :visible.sync="showNewOrEditDialog">
       <el-form :model="category">
@@ -29,9 +23,6 @@
       </div>
     </el-dialog>
 
-    <simple-confirm-dialog :content="confirmContent" :show-dialog="showConfrmDialog" @closeDialog="showConfrmDialog = false" @confirm="showConfrmDialog = false">
-      <span style="color: red">{{'你确定要删除分类吗？'}}</span>
-    </simple-confirm-dialog>
   </div>
 </template>
 
@@ -55,31 +46,91 @@
         showConfrmDialog: false,
         data2: [{
           value: 1,
-          label: '一级 1',
+          label: '主商城',
           children: [{
-            value: 4,
-            label: '二级 1-1',
-            children: [{
-              value: 9,
-              label: '三级 1-1-1'
-            }, {
-              value: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
+            value: 13,
+            label: '鱼禽肉蛋',
+          },
+            {
+              value: 14,
+              label: '蔬菜水果',
+            },
+            {
+              value: 15,
+              label: '园林花卉',
+            },
+            {
+              value: 16,
+              label: '粮油食品',
+            },
+            {
+              value: 17,
+              label: '农机设备',
+            },
+            {
+              value: 18,
+              label: '生态花果',
+            },
+            {
+              value: 19,
+              label: '土地改良',
+            },
+            {
+              value: 20,
+              label: '有机种植',
+            },{
+              value: 21,
+              label: '农副产品',
+            },{
+              value: 22,
+              label: '虫草药材',
+            }
+
+          ]
+
         }, {
           value: 2,
-          label: '一级 2',
+          label: '综合商城',
           children: [{
-            value: 5,
-            label: '二级 2-1'
-          }, {
-            value: 6,
-            label: '二级 2-2'
-          }]
+            value: 3,
+            label: '食品保健'
+          },{
+            value: 4,
+            label: '美容护理',
+          },
+            {
+              value: 5,
+              label: '手机数码',
+            },
+            {
+              value: 6,
+              label: '装修建材',
+            },
+            {
+              value: 7,
+              label: '男女服饰',
+            },
+            {
+              value: 8,
+              label: '鞋帽箱包',
+            },
+            {
+              value: 9,
+              label: '饰品摆件',
+            },
+            {
+              value: 10,
+              label: '珠宝首饰',
+            },{
+              value: 11,
+              label: '日用刚需',
+            },{
+              value: 12,
+              label: '母婴童装',
+            }]
         }, {
           value: 3,
-          label: '一级 3',
+          label: '自营区',
           children: [{
             value: 7,
             label: '二级 3-1'

@@ -16,7 +16,7 @@
     </el-row>
     <el-row>
       <el-col :span="12">
-        <money-chart></money-chart>
+        <money-chart :weekincome="weekIncome" :weekoutcome="weekOutcome"></money-chart>
       </el-col>
       <el-col :span="12">
         <order-chart :data="monthcome"></order-chart>
@@ -24,7 +24,7 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
-        <visitor-chart></visitor-chart>
+        <visitor-chart :monthincome="monthMeneyincome" :monthoutcome="monthMeneyoutcome"></visitor-chart>
       </el-col>
     </el-row>
   </div>

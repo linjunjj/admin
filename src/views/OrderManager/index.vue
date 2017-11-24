@@ -19,7 +19,7 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <money-chart></money-chart>
+        <money-chart :data="weekmoney"></money-chart>
       </el-col>
       <el-col :span="10">
         <order-chart :data="orderplan"></order-chart>
@@ -27,7 +27,7 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
-        <visitor-chart></visitor-chart>
+        <visitor-chart :data="monthmoney" ></visitor-chart>
       </el-col>
     </el-row>
   </div>

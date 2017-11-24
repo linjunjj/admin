@@ -25,7 +25,11 @@
         type: Boolean,
         default: true
       },
-      data: {
+      monthincome: {
+        required: true,
+        type: Object
+      },
+      monthoutcome: {
         required: true,
         type: Object
       },
@@ -90,7 +94,7 @@
           },
           yAxis: {},
           series:
-
+            [
             {
               name: 'buyers',
               smooth: true,
@@ -106,8 +110,26 @@
                   }
                 }
               },
-              data: this.data,
-            }
+              data: this.monthincome,
+            },
+              {
+                name: 'buyers',
+                smooth: true,
+                type: 'line',
+                itemStyle: {
+                  normal: {
+                    color: 'rgba(2, 197, 233, 0.2)',
+                    lineStyle: {
+                      color: 'rgba(2, 197, 233, 0.2)'
+                    },
+                    areaStyle: {
+                      color: 'rgba(99,194,255, 0.6)'
+                    }
+                  }
+                },
+                data:this.monthoutcome,
+              }
+            ]
         });
       }
     }

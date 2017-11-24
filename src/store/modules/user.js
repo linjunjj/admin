@@ -195,6 +195,30 @@ const user = {
         })
       })
     },
+    //获取商品状态数据
+    GetStatusGoods({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStatusGoods',{
+          params:{
+            status:info.status,
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+
+      })
+    },
+
+
     //获取所有订单
     GetOrderList({commit},info){
       return new Promise((resolve,reject)=>{
@@ -232,6 +256,30 @@ const user = {
 
       })
     },
+    //获取订单状态数据
+    GetStatusOrder(){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getStatusOrder',{
+          params:{
+            status:info.status,
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+
+      })
+    },
+
+
 
     //获取交易概览
     GetDealImage(){

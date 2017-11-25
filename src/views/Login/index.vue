@@ -2,7 +2,7 @@
   <div class="login-container">
     <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
              class="card-box login-form">
-      <h3 class="title">系统登录</h3>
+      <h3 class="title">超级管理员登录</h3>
       <el-form-item prop="email">
         <span class="svg-container"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
         <el-input name="account" type="text" v-model="loginForm.account" autoComplete="on" placeholder="账号"></el-input>

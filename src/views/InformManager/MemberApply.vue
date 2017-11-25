@@ -75,12 +75,12 @@
             trigger="hover"
             :visible-arrow="false">
             <el-row style="margin-bottom: 3px;">
-              <el-button v-if="scope.row.status === 0" size="small" type="info"
+              <el-button v-if="scope.row.stutas === 0"  size="small" type="info"
                          @click="handleModifyStatus(scope.row, 1)">通过
               </el-button>
             </el-row>
             <el-row style="margin-bottom: 3px;">
-              <el-button v-if="scope.row.status === 1 || scope.row.status === 2 " size="small" type="warning"
+              <el-button v-if="scope.row.stutas === 1" size="small" type="warning"
                          @click="handleModifyStatus(scope.row, 0)">不通过
               </el-button>
             </el-row>
@@ -301,7 +301,8 @@
         this.listLoading=true;
         var  info={};
         info.id=row.id;
-        info.isauth=status;
+        info.stutas=status;
+        console.log(info);
         setTimeout(()=>{
           this.$store.dispatch('UpdaeMember',info).then((res)=>{
             this.judge();

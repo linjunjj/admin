@@ -104,12 +104,14 @@
          this.listLoading=true;
          setTimeout(()=>{
            this.submitUpload();
-         })
+         },2000)
       },
       cancel() {
         this.$router.go(-1);
       },
       beforeAvatarUpload(file) {
+        console.log(file);
+
         const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -120,10 +122,11 @@
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
         let fd = new FormData();
-        fd.append('status', this.postForm.linkType)
+        fd.append('id', this.postForm.linkType)
         fd.append('file', file)
+        console.log(fd);
+        console.log(this.postForm.linkType)
         this.$http.post('/api/banner/uploadBanner', fd).then((res) => {
-          console.log(res)
           if (res.data.errorcode=="200"){
             this.listLoading = false;
             this.cancel();

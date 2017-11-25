@@ -71,12 +71,12 @@
             trigger="hover"
             :visible-arrow="false">
             <el-row style="margin-bottom: 3px;">
-              <el-button v-if="scope.row.status === 0" size="small" type="info"
+              <el-button v-if="scope.row.stutas === 0" size="small" type="info"
                          @click="handleModifyStatus(scope.row, 1)">上架
               </el-button>
             </el-row>
             <el-row style="margin-bottom: 3px;">
-              <el-button v-if="scope.row.status === 1" size="small" type="warning"
+              <el-button v-if="scope.row.stutas === 1" size="small" type="warning"
                          @click="handleModifyStatus(scope.row, 0)">下架
               </el-button>
             </el-row>
@@ -205,7 +205,7 @@
         this.listLoading=true;
         var  info={};
         info.id=row.id;
-        info.isauth=status;
+        info.stutas=status;
         setTimeout(()=>{
           this.$store.dispatch('UpdateVillage',info).then((res)=>{
             this.judge();

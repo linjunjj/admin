@@ -75,7 +75,7 @@ export const asyncRouterMap = [
     name: '官网设置',
     icon: 'fa-cogs',
     children: [
-      {path: 'swiper-manager', component: SwiperList, name: '轮播图设置', meta: {keepAlive: true, keepTabsView: true}},
+      {path: 'swiper-manager', component: SwiperList, name: '轮播图设置', meta: {keepAlive: false, keepTabsView: false}},
       {path: 'add-swiper', component: AddSwiper, name: '新增轮播图', hidden: true, meta: {keepAlive: false, keepTabsView: false}}
     ]
   },

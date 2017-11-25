@@ -12,7 +12,6 @@ import NProgress from 'nprogress'; // Progress 进度条
 import 'nprogress/nprogress.css';// Progress 进度条 样式
 import 'normalize.css/normalize.css';// normalize.css 样式格式化
 
-import AjaxPlugin from './plugins/ajax';
 import VueLazyload from 'vue-lazyload'; // 引入图片懒加载模块
 import inputPrice from './directive/input-price';
 import inputQuantity from './directive/input-quantity';
@@ -20,8 +19,8 @@ import vueWaves from './directive/waves';// 水波纹指令
 import errLog from './store/errLog';// error log组件
 import mixins from './mixins';
 import './assets/css/index.scss'; // 全局自定义的css样式
-
-Vue.use(AjaxPlugin);
+import axios from 'axios'
+Vue.prototype.$http = axios
 Vue.use(inputPrice);
 Vue.use(inputQuantity);
 Vue.use(ElementUI);
@@ -49,7 +48,7 @@ function hasPermission(roles, permissionRoles) {
 const whiteList = ['/login'];// 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start(); // 开启Progress
-  if (store.getters.token) { // 判断是否有token
+  if (!store.getters.token) { // 判断是否有token
     if (to.path === '/login') {
       next({ path: '/' });
     } else {

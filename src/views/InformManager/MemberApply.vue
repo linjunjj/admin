@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="14">
           <el-input @keyup.enter.native="handleFilter" style="width: 230px;" class="filter-item"
-                    placeholder="请输入关键字" v-model="listQuery.title" size="small">
+                    placeholder="请输入关键字" v-model="condition" size="small">
           </el-input>
 
 
@@ -107,11 +107,7 @@
 <script>
   import {parseTime} from '../../assets/js/tool';
   import keepAliveList from '../keepAliveList';
-
-
-
   const tags = [{id: 1, name: '新品上架'}, {id: 2, name: '热卖促销'}, {id: 3, name: '新客优惠'}];
-
   export default {
     components: {},
     name: 'GoodList',
@@ -167,19 +163,26 @@
     methods: {
       judge(){
         var  info='';
+        var temp='';
         info=this.$store.getters.status;
+        temp=this.$store.getters.conditions;
         console.log(info);
         this.value=info;
+        this.condition=temp;
         if (info===0||info===1||info===2){
-            this.getStatusList(info);
-
-          console.log("第一个");
+            if (temp== ''){
+              this.getStatusList(info);
+            }else {
+             this.getSearchMemberStatus(temp,info);
+            }
 
         }else {
-//          this.$store.dispatch('ChangeCondition','').then(()=>{
-            this.getList();
-        //  })
-          console.log("第二个");
+            if (temp==''){
+              this.getList();
+            }else {
+              this.getSearchMember(temp)
+              console.log(temp)
+            }
         }
       },
 
@@ -211,6 +214,41 @@
           this.listLoading = false;
         }, 2000);
       },
+      getSearchMember(condition){
+
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.condition=condition;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetSearchMemberApply',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+
+
+      },
+      getSearchMemberStatus(condition,status){
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.condition=condition;
+          info.status=status;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetSearchMemberApplyStatus',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+      },
+
+
+
        clearStatus(){
         this.$store.dispatch('ChangeCondition','');
         var info =this.$store.getters.value;
@@ -219,9 +257,12 @@
 
       handleFilter() {
         this.$store.dispatch('ChangeCondition',this.value).then(()=>{
-          this.judge();
+          this.$store.dispatch('ChangCon',this.condition).then(()=>{
+            this.judge();
+          })
         })
       },
+
       handleSizeChange(val) {
         this.listQuery.limit = val;
         this.judge();

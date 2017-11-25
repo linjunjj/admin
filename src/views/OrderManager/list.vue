@@ -11,7 +11,7 @@
             </el-select>
 
             <el-input @keyup.enter.native="handleFilter" style="width: 230px;" class="filter-item"
-                      placeholder="请输入订单号" v-model="listQuery.orderId" size="small">
+                      placeholder="请输入订单号" v-model="condition" size="small">
             </el-input>
 
 
@@ -129,6 +129,8 @@
           orderId: undefined,
           status: undefined
         },
+        value:'',
+        condition:'',
         orderStatus: [{label: '待付款', value: 0}, {label: '待发货', value: 1}, {label: '已发货', value: 2}, {label: '已取消', value: 3}, {label: '已完成', value: 4}],
         checkAllStatus: true,
         checkedStatuss: [0, 1],
@@ -187,19 +189,26 @@
     methods: {
       judge(){
         var  info='';
+        var temp='';
         info=this.$store.getters.status;
+        temp=this.$store.getters.conditions;
         console.log(info);
         this.value=info;
+        this.condition=temp;
         if (info===0||info===1||info===2){
-          this.getStatusList(info);
-
-          console.log("第一个");
+          if (temp== ''){
+            this.getStatusList(info);
+          }else {
+            this.getSearchOrderStatus(temp,info);
+          }
 
         }else {
-//          this.$store.dispatch('ChangeCondition','').then(()=>{
-          this.getList();
-          //  })
-          console.log("第二个");
+          if (temp==''){
+            this.getList();
+          }else {
+            this.getSearchOrder(temp)
+            console.log(temp)
+          }
         }
       },
 
@@ -230,11 +239,44 @@
           this.listLoading = false;
         }, 2000);
       },
+      getSearchOrder(condition){
+
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.condition=condition;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetSearchOrder',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+
+
+      },
+      getSearchOrderStatus(condition,status){
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.condition=condition;
+          info.status=status;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetSearchOrderStatus',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+      },
 
       handleFilter() {
-        console.log(this.value);
         this.$store.dispatch('ChangeCondition',this.value).then(()=>{
-          this.judge();
+          this.$store.dispatch('ChangCon',this.condition).then(()=>{
+            this.judge();
+          })
         })
       },
       handleSizeChange(val) {

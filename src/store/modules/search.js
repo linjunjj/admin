@@ -1,12 +1,33 @@
 import axios from 'axios'
 const search = {
+    state: {
+      condition:'',
+    },
+  mutations:{
+    SET_CONDITION:(state,condition)=>{
+      state.condition=condition;
+    }
+
+
+  },
+
+
   actions:{
+    //  修改标题
+    ChangCon({commit},info){
+
+      return new Promise((resolve, reject)=>{
+        commit('SET_CONDITION',info);
+        resolve();
+      })
+    },
+
     //用户搜索
     GetSearchUser({commit},info){
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchUser',{
           params:{
-            condition: condition,
+            condition: info.condition,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -14,6 +35,7 @@ const search = {
           var  code=response.data.errorcode;
           if(code=="200"){
             resolve(response.data.data);
+
           } else {
             reject(response.data.errormsg);
           }
@@ -27,8 +49,8 @@ const search = {
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchUserStatus',{
           params:{
-            condition: condition,
-            status:status,
+            condition: info.condition,
+            status:info.status,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -49,7 +71,7 @@ const search = {
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchGoods',{
           params:{
-            condition: condition,
+            condition: info.condition,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -70,8 +92,8 @@ const search = {
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchGoodsStatus',{
           params:{
-            condition: condition,
-            status:status,
+            condition: info.condition,
+            status:info.status,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -92,7 +114,7 @@ const search = {
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchOrder',{
           params:{
-            condition: condition,
+            condition: info.condition,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -110,11 +132,12 @@ const search = {
     },
   //  订单状态搜索
     GetSearchOrderStatus({commit},info){
+
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchOrderStatus',{
           params:{
-            condition: condition,
-            status:status,
+            condition: info.condition,
+            status:info.status,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -132,10 +155,11 @@ const search = {
     },
   //收入搜索
     GetSearchIncome({commit},info){
+
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchIncome',{
           params:{
-            condition: condition,
+            condition: info.condition,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -153,11 +177,12 @@ const search = {
     },
   //收入状态搜索
     GetSearchIncomeStatus({commit},info){
+
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchIncomeStatus',{
           params:{
-            condition: condition,
-            status:status,
+            condition: info.condition,
+            status:info.status,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -175,10 +200,11 @@ const search = {
     },
   //  支出搜索
     GetSearchOutcome({commit},info){
+
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchOutcome',{
           params:{
-            condition: condition,
+            condition: info.condition,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -196,11 +222,12 @@ const search = {
     },
   //支出状态搜索
     GetSearchOutcomeStatus({commit},info){
+
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchOutcomeStatus',{
           params:{
-            condition: condition,
-            status:status,
+            condition: info.condition,
+            status:info.status,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -218,10 +245,11 @@ const search = {
     },
   //会员通知搜索
     GetSearchMemberApply({commit},info){
+
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchMember',{
           params:{
-            condition: condition,
+            condition: info.condition,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -242,8 +270,8 @@ const search = {
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchMenberStatus',{
           params:{
-            condition: condition,
-            status:status,
+            condition: info.condition,
+            status:info.status,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -261,11 +289,12 @@ const search = {
     },
   // 商城申请
     GetSearchStoreApply({commit},info){
+
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchStoreApply',{
           params:{
-            condition: condition,
-            status:status,
+            condition: info.condition,
+            status:info.status,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -283,11 +312,12 @@ const search = {
     },
   //商城状态申请搜索
     GetSearchStoreApplyStatus({commit},info){
+
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchStoreApplyStatus',{
           params:{
-            condition: condition,
-            status:status,
+            condition: info.condition,
+            status:info.status,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -305,10 +335,11 @@ const search = {
     },
   //村村通搜索
     GetSearchVillageApply({commit},info){
+
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchVillage',{
           params:{
-            condition: condition,
+            condition: info.condition,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -326,11 +357,12 @@ const search = {
     },
   // 村村通状态搜索
     GetSearchVillageApplyStatus({commit},info){
+
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchVillageStatus',{
           params:{
-            condition: condition,
-            status:status,
+            condition: info.condition,
+            status:info.status,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -351,7 +383,7 @@ const search = {
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchWithDraw',{
           params:{
-            condition: condition,
+            condition: info.condition,
             page:info.page,
             pagesize:info.pagesize,
           }
@@ -372,8 +404,8 @@ const search = {
       return new Promise((resolve,reject)=>{
         axios.get('/api/search/searchWithDrawStatus',{
           params:{
-            condition: condition,
-            status:status,
+            condition: info.condition,
+            status:info.status,
             page:info.page,
             pagesize:info.pagesize,
           }

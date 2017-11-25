@@ -11,7 +11,7 @@
             </el-select>
 
             <el-input @keyup.enter.native="handleFilter" style="width: 230px;" class="filter-item"
-                      placeholder="请输入订单号" v-model="listQuery.orderId" size="small">
+                      placeholder="请输入订单号" v-model="condition" size="small">
             </el-input>
 
 
@@ -106,6 +106,7 @@
         },
         orderStatus: [{label: '未支付', value: 0},  {label: '已支付', value: 1}],
         value:'',
+        condition:'',
         checkAllStatus: true,
         checkedStatuss: [0, 1],
         isIndeterminateStatus: false,
@@ -163,24 +164,28 @@
     methods: {
       judge(){
         var  info='';
+        var temp='';
         info=this.$store.getters.status;
+        temp=this.$store.getters.conditions;
         console.log(info);
         this.value=info;
+        this.condition=temp;
         if (info===0||info===1||info===2){
-          this.getStatusList(info);
-
-          console.log("第一个");
+          if (temp== ''){
+            this.getStatusList(info);
+          }else {
+            this.getSearchIncomeStatus(temp,info);
+          }
 
         }else {
-//          this.$store.dispatch('ChangeCondition','').then(()=>{
-          this.getList();
-          //  })
-          console.log("第二个");
+          if (temp==''){
+            this.getList();
+          }else {
+            this.getSearchIncome(temp)
+            console.log(temp)
+          }
         }
       },
-
-
-
       getList() {
         this.listLoading = true;
         setTimeout((items, total) => {
@@ -210,11 +215,43 @@
           this.listLoading = false;
         }, 2000);
       },
+      getSearchIncome(condition){
 
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.condition=condition;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetSearchIncome',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+
+
+      },
+      getSearchIncomeStatus(condition,status) {
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info = {};
+          info.condition = condition;
+          info.status = status;
+          info.page = this.listQuery.page;
+          info.pagesize = this.listQuery.limit;
+          this.$store.dispatch('GetSearchIncomeStatus', info).then((res) => {
+            this.total = res.total;
+            this.list = res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+      },
       handleFilter() {
-        console.log(this.value);
         this.$store.dispatch('ChangeCondition',this.value).then(()=>{
-          this.judge();
+          this.$store.dispatch('ChangCon',this.condition).then(()=>{
+            this.judge();
+          })
         })
       },
       handleSizeChange(val) {

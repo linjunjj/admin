@@ -10,7 +10,7 @@
 
           <el-col :span="14">
             <el-input @keyup.enter.native="handleFilter" style="width: 230px;" class="filter-item"
-                      placeholder="请输入关键字" v-model="listQuery.title" size="small">
+                      placeholder="请输入关键字" v-model="condition" size="small">
             </el-input>
             <el-select clearable style="width: 100px" class="filter-item" v-model="value" placeholder="状态"
                        size="small">
@@ -19,7 +19,6 @@
             </el-select>
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter()" size="small">搜索
             </el-button>
-
 
           </el-col>
       </el-row>
@@ -117,6 +116,7 @@
         },
         goodStatus: [{label: '未认证', value: 0}, {label: '已认证', value: 1}],
           value:'',
+        condition:'',
         checkAllTag: true,
         checkedTags: [1, 2],
         isIndeterminateTag: true,
@@ -145,17 +145,26 @@
     methods: {
       judge(){
         var  info='';
+        var temp='';
         info=this.$store.getters.status;
+        temp=this.$store.getters.conditions;
         console.log(info);
         this.value=info;
+        this.condition=temp;
         if (info===0||info===1||info===2){
-          this.getStatusList(info);
-
+          if (temp== ''){
+            this.getStatusList(info);
+          }else {
+            this.getSearchUserStatus(temp,info);
+          }
 
         }else {
-//          this.$store.dispatch('ChangeCondition','').then(()=>{
-          this.getList();
-          //  })
+          if (temp==''){
+            this.getList();
+          }else {
+            this.getSearchUser(temp)
+            console.log(temp)
+          }
         }
       },
       getList() {
@@ -185,10 +194,43 @@
           this.listLoading = false;
         }, 2000);
       },
+      getSearchUser(condition){
 
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.condition=condition;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetSearchMemberApply',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+
+
+      },
+      getSearchUserStatus(condition,status){
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.condition=condition;
+          info.status=status;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetSearchMemberApplyStatus',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+      },
       handleFilter() {
         this.$store.dispatch('ChangeCondition',this.value).then(()=>{
-          this.judge();
+          this.$store.dispatch('ChangCon',this.condition).then(()=>{
+            this.judge();
+          })
         })
       },
       handleSizeChange(val) {

@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="14">
           <el-input @keyup.enter.native="handleFilter" style="width: 230px;" class="filter-item"
-                    placeholder="请输入关键字" v-model="listQuery.title" size="small">
+                    placeholder="请输入关键字" v-model="condition" size="small">
           </el-input>
 
 
@@ -130,6 +130,7 @@
         },
         goodStatus: [{label: '待审核', value: 0}, {label: '审核通过', value: 1},{label: '审核未通过', value: 2}],
         value:'',
+        condition:'',
         checkAllTag: true,
         checkedTags: [1, 2],
         tags: tags,
@@ -163,17 +164,26 @@
     methods: {
       judge(){
         var  info='';
+        var temp='';
         info=this.$store.getters.status;
+        temp=this.$store.getters.conditions;
         console.log(info);
         this.value=info;
+        this.condition=temp;
         if (info===0||info===1||info===2){
-          this.getStatusList(info);
-
+          if (temp== ''){
+            this.getStatusList(info);
+          }else {
+            this.getSearchVillageStatus(temp,info);
+          }
 
         }else {
-//          this.$store.dispatch('ChangeCondition','').then(()=>{
-          this.getList();
-          //  })
+          if (temp==''){
+            this.getList();
+          }else {
+            this.getSearchVillage(temp)
+            console.log(temp)
+          }
         }
       },
       getList() {
@@ -255,10 +265,43 @@
           this.listLoading = false;
         }, 2000);
       },
+      getSearchVillage(condition){
 
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.condition=condition;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetSearchVillageApply',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+
+
+      },
+      getSearchVillageStatus(condition,status){
+        this.listLoading = true;
+        setTimeout((items, total) => {
+          var info={};
+          info.condition=condition;
+          info.status=status;
+          info.page=this.listQuery.page;
+          info.pagesize=this.listQuery.limit;
+          this.$store.dispatch('GetSearchVillageApplyStatus',info).then((res)=>{
+            this.total=res.total;
+            this.list=res.list;
+          })
+          this.listLoading = false;
+        }, 2000);
+      },
       handleFilter() {
         this.$store.dispatch('ChangeCondition',this.value).then(()=>{
-          this.judge();
+          this.$store.dispatch('ChangCon',this.condition).then(()=>{
+            this.judge();
+          })
         })
       },
       handleSizeChange(val) {

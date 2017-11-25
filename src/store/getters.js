@@ -15,5 +15,6 @@ const getters = {
   villageinfo:state=>state.info.villageApply,
   withdrawinfo:state=>state.info.withDrawApply,
    status: state=>state.status.condition,
+  conditions: state => state.search.condition,
 };
 export default getters;

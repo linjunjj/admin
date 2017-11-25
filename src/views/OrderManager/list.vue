@@ -27,7 +27,6 @@
             已选中<span style="color: #13c19f">{{selectOrders.length}}</span>项
           </el-col>
           <el-col :span="1">
-            |
           </el-col>
           <el-col :span="2">
             <i class="fa fa-truck fa-lg"></i> 确认发货

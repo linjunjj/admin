@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-editor-container">
+  <div class="dashboard-editor-container"  v-loading="listLoading">
     <el-row class="btn-group">
       <el-col :span="4" class='text-center'>
         <span class="pan-btn light-blue-btn">今日订单：{{todayorder}}</span>
@@ -52,6 +52,7 @@
         monthday:0,
         monthmoney:[],
         orderplan:['45','645','342','42','49'],
+        listLoading:false,
       };
     },
     created(){

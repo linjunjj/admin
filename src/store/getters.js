@@ -16,5 +16,6 @@ const getters = {
   withdrawinfo:state=>state.info.withDrawApply,
    status: state=>state.status.condition,
   conditions: state => state.search.condition,
+  imageinfo:state=>state.imageinfo.imageinfo,
 };
 export default getters;

@@ -1,6 +1,6 @@
 <template>
-  <div class="dashboard-editor-container" v-loading="listLoading">
-    <el-row class="btn-group">
+  <div class="dashboard-editor-container"     v-loading="loading"
+  >
       <el-col :span="4" class='text-center'>
         <span class="pan-btn light-blue-btn">今日新增用户：{{todaysuer}}</span>
       </el-col>
@@ -8,7 +8,6 @@
         <span class="pan-btn green-btn">总用户：{{sumuser}}</span>
       </el-col>
     </el-row>
-
     <el-row>
       <el-col :span="24">
         <money-chart :data="weekadduser"></money-chart>
@@ -16,8 +15,8 @@
     </el-row>
 
     <el-row :gutter="20" >
-      <el-col :span="24">
-        <visitor-chart :data="data" ></visitor-chart>
+      <el-col :span="24" >
+        <visitor-chart :data="data" :month="monthday"></visitor-chart>
       </el-col>
     </el-row>
 
@@ -32,34 +31,36 @@
     components: { moneyChart, visitorChart },
     data() {
       return {
-        data:[9, 82, 91, 6, 0, 5, 7],
+        data:[],
         todaysuer:0,
         sumuser:0,
         weekadduser:[],
-        monthadduser:[],
-        monthday:'',
-
+        monthadduser:['0'],
+        monthday:[],
+        loading:false,
       };
     },
      created(){
-      this.getData();
+       this.getData();
      },
+    mounted:{
+
+    },
      methods:{
        getData(){
-         this.listLoading=true;
+         this.loading=true;
          setTimeout((items,total)=>{
          this.$store.dispatch('GetUserImage').then((res)=>{
            this.todaysuer=res.newuser;
            this.sumuser=res.alluser;
            this.weekadduser=res.weekUser;
            this.monthday=res.monthday;
+           console.log(this.monthday);
            this.monthadduser=res.monthUser;
          })
-            this.listLoading=false;
-         },2000);
-         this.listLoading=false;
-
-       }
+           this.loading=false;
+         });
+       },
      },
 
     computed: {

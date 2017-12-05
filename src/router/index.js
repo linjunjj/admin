@@ -86,8 +86,8 @@ export const asyncRouterMap = [
     name: '用户管理',
     icon: 'fa-gift',
     children: [
-      {path: 'userList', component: UserList, name: '用户列表', meta: {keepAlive: true, keepTabsView: true}},
-      {path: 'userImage', component: UserImage, name: '用户概览', meta: {keepAlive: true, keepTabsView: true}},
+      {path: 'userList', component: UserList, name: '用户列表'},
+      {path: 'userImage', component: UserImage, name: '用户概览', },
 
     ]
   },

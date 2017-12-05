@@ -68,8 +68,6 @@
         storeapplyinfo:0,
         withdrawinfo:0,
 
-
-
         log: errLogStore.state.errLog
       };
     },

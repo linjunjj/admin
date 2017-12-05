@@ -13,7 +13,6 @@
         <el-col :span="9" :offset="3">
           <el-input @keyup.enter.native="handleFilter" style="width: 230px;" class="filter-item" placeholder="名称" v-model="listQuery.title" size="small">
           </el-input>
-
           <el-select clearable style="width: 100px" class="filter-item" v-model="listQuery.status" placeholder="状态" size="small">
             <el-option v-for="item in swiperStatus" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -21,9 +20,7 @@
           <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter" size="small">搜索</el-button>
         </el-col>
       </el-row>
-
     </div>
-
     <el-table :data="list" v-loading="listLoading" element-loading-text="拼命加载中" :height="tableHeight" fit highlight-current-row style="width: 100%">
       <el-table-column  align="center"
                         type="selection"
@@ -112,11 +109,11 @@
       };
     },
     created() {
+      this.getList();
       this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
       $(window).resize(() => {
         this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
       });
-      this.getList();
     },
     filters: {
       parseTime(time) {

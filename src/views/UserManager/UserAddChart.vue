@@ -5,6 +5,8 @@
 <script>
   import echarts from 'echarts';
   require('echarts/theme/macarons'); // echarts 主题
+  import { debounce } from '../../assets/js/tool';
+
 
   export default {
     props: {
@@ -26,11 +28,13 @@
       },
       data: {
         required: true,
-        type: Object
+        default: 0,
+        type: Array
       },
       month: {
         required: true,
-        type: Object
+        default: 0,
+        type: Array
       },
     },
     data() {
@@ -41,7 +45,9 @@
       };
     },
     mounted() {
-      this.initChart();
+      setTimeout(()=>{
+        this.initChart();
+      },500)
       if (this.autoResize) {
         this.__resizeHanlder = debounce(() => {
           this.chart.resize();
@@ -52,6 +58,11 @@
       // 监听侧边栏的变化
       const sidebarElm = document.getElementsByClassName('sidebar-container')[0];
       sidebarElm.addEventListener('transitionend', this.__resizeHanlder);
+    },
+    created(){
+      setTimeout(()=>{
+        this.initChart();
+      })
     },
     beforeDestroy() {
       if (!this.chart) {
@@ -65,11 +76,11 @@
       this.chart.dispose();
       this.chart = null;
     },
+
     methods: {
       initChart() {
-        console.log("sdfsdf");
-        console.log(this.data);
-
+        console.log(this.month);
+        console.log(this.month);
         this.chart = echarts.init(this.$el, 'macarons');
         this.chart.setOption({
           title: {
@@ -77,7 +88,7 @@
             x: 'center'
           },
           xAxis: {
-            data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11','12','13','14','15','16','17','18','19','20','21','22','23'],
+            data: this.month,
             boundaryGap: false
           },
           grid: {

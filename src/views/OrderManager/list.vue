@@ -14,7 +14,6 @@
                       placeholder="请输入订单号" v-model="condition" size="small">
             </el-input>
 
-
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter" size="small">搜索
             </el-button>
 
@@ -167,11 +166,11 @@
       };
     },
     created() {
+      this.judge();
       this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
       $(window).resize(() => {
         this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
       });
-      this.judge();
     },
     filters: {
       parseTime(time) {

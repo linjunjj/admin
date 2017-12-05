@@ -37,7 +37,7 @@ const user = {
         axios.get('/api/admin/getUserAll',{
           params:{
             page:info.page,
-            pagesize:info.pagesize,
+            pageszie:info.pagesize,
           }
         }).then(function (response) {
           var  code=response.data.errorcode;
@@ -54,7 +54,7 @@ const user = {
     //获取用户概览
     GetUserImage(){
       return new Promise((resolve,reject)=>{
-        axios.get('/api/admin/getUserAllImage').then(function (responce) {
+        axios.get('/api/admin/getUserAllImage').then(function (response) {
           var code=response.data.errorcode;
           if (code=="200"){
             resolve(response.data.data);
@@ -186,6 +186,7 @@ const user = {
         }).then(function (response) {
           var  code=response.data.errorcode;
           if (code=="200"){
+
             resolve(response.data.data);
           }else {
             reject(response.data.errormsg)

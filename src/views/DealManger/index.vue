@@ -49,10 +49,11 @@
         monthcome:[],
         monthMeneyincome:[],
         monthMeneyoutcome:[],
+        listLoading:false,
       };
     },
     created(){
-      this.data();
+      this.GetData();
     },
     methods:{
       GetData(){
@@ -71,8 +72,6 @@
             this.monthMeneyoutcome=res.monthMeneyoutcome;
           })
           this.listLoading=false;
-
-
         },2000)
       }
     },

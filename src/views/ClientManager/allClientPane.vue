@@ -97,11 +97,12 @@
       };
     },
     created() {
+      this.getList();
+
       this.tableHeight = document.documentElement.clientHeight - (50 + 21 + 42 + 15 + 150);
       $(window).resize(() => {
         this.tableHeight = document.documentElement.clientHeight - (50 + 21 + 42 + 15 + 150);
       });
-      this.getList();
     },
     filters: {
       parseTime(time) {

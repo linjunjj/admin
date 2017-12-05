@@ -142,11 +142,12 @@
       };
     },
     created() {
+      this.getList();
+
       this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
       $(window).resize(() => {
         this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
       });
-      this.getList();
     },
     filters: {
       parseTime(time) {

@@ -32,7 +32,9 @@
       };
     },
     mounted() {
-      this.initChart();
+      setTimeout(()=>{
+        this.initChart();
+      })
     },
     beforeDestroy() {
       if (!this.chart) {

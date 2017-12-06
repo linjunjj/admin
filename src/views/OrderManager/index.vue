@@ -27,7 +27,7 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
-        <visitor-chart :data="monthmoney" ></visitor-chart>
+        <visitor-chart :data="monthmoney" :month="monthday" ></visitor-chart>
       </el-col>
     </el-row>
   </div>
@@ -49,7 +49,7 @@
         summoney:0,
        weekmoney:[],
        weekplan:[],
-        monthday:0,
+        monthday:[],
         monthmoney:[],
         orderplan:['45','645','342','42','49'],
         listLoading:false,

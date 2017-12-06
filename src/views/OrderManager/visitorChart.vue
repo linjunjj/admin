@@ -29,15 +29,22 @@
         required: true,
         type: Object
       },
+      month: {
+        required: true,
+        type: Object
+      },
     },
     data() {
       return {
         chart: null,
         data:this.data,
+        month:this.month,
       };
     },
     mounted() {
-      this.initChart();
+      setTimeout(()=>{
+        this.initChart();
+      })
       if (this.autoResize) {
         this.__resizeHanlder = debounce(() => {
           this.chart.resize();
@@ -72,7 +79,7 @@
             x: 'center'
           },
           xAxis: {
-            data: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+            data: this.month,
             boundaryGap: false
           },
           grid: {

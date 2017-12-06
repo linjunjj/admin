@@ -24,15 +24,34 @@
       autoResize: {
         type: Boolean,
         default: true
+      },
+      monthvistor: {
+        required: true,
+        type: Object
+      },
+      monthpay: {
+        required: true,
+        type: Object
+      },
+      month:{
+        required:true,
+        type:Object,
       }
+
     },
     data() {
       return {
-        chart: null
+        chart: null,
+        monthvistor:this.monthvistor,
+      monthpay:this.monthpay,
+        month:this.month,
       };
     },
     mounted() {
-      this.initChart();
+      setTimeout(()=>{
+        this.initChart();
+
+      })
       if (this.autoResize) {
         this.__resizeHanlder = debounce(() => {
           this.chart.resize();
@@ -68,7 +87,7 @@
             x: 'center'
           },
           xAxis: {
-            data: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+            data: this.month,
             boundaryGap: false
           },
           grid: {
@@ -94,7 +113,7 @@
             },
             smooth: true,
             type: 'line',
-            data: [100, 120, 161, 134, 105, 160, 165]
+            data: this.monthvistor,
           },
             {
               name: 'buyers',
@@ -111,7 +130,7 @@
                   }
                 }
               },
-              data: [120, 82, 91, 154, 162, 140, 130]
+              data: this.monthpay,
             }]
         });
       }

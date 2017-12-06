@@ -19,15 +19,29 @@
       height: {
         type: String,
         default: '300px'
+      },
+      monthorder: {
+        required: true,
+        type: Object
+      },
+      month:{
+        required:true,
+        type:Object,
       }
+
+
     },
     data() {
       return {
-        chart: null
+        chart: null,
+        monthorder:this.monthorder,
       };
     },
     mounted() {
-      this.initChart();
+      setTimeout(()=>{
+        this.initChart();
+
+      })
     },
     beforeDestroy() {
       if (!this.chart) {
@@ -61,11 +75,11 @@
               type: 'pie',
               roseType: 'radius',
               data: [
-                { value: 320, name: '已完成' },
-                { value: 240, name: '待付款' },
-                { value: 149, name: '待发货' },
-                { value: 100, name: '已发货' },
-                { value: 59, name: '已取消' }
+                { value: this.monthorder[4], name: '已完成' },
+                { value: this.monthorder[0], name: '待付款' },
+                { value: this.monthorder[1], name: '待发货' },
+                { value: this.monthorder[2], name: '已发货' },
+                { value: this.monthorder[3], name: '已取消' }
               ]
             }
           ]

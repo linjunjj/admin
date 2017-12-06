@@ -1,33 +1,33 @@
 <template>
-  <div class="dashboard-editor-container">
+  <div class="dashboard-editor-container" v-loading="listLoading">
     <el-row class="btn-group">
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn light-blue-btn">总订单：123</span>
+        <span class="pan-btn light-blue-btn">总订单：{{sumOrder}}</span>
       </el-col>
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn pink-btn">总店铺：1232</span>
+        <span class="pan-btn pink-btn">总店铺：{{sumStore}}</span>
       </el-col>
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn green-btn">总注册数：123</span>
+        <span class="pan-btn green-btn">总注册数：{{sumUser}}</span>
       </el-col>
       <el-col :span="4" class='text-center'>
-        <span class="pan-btn green-btn">总会员数：123</span>
+        <span class="pan-btn green-btn">总会员数：{{sumMember}}</span>
       </el-col>
     </el-row>
 
     <el-row>
       <el-col :span="10">
-        <money-chart></money-chart>
+        <money-chart :monthmoney="monthMoney"></money-chart>
       </el-col>
 
       <el-col :span="10">
-        <order-chart></order-chart>
+        <order-chart :monthorder="monthorder" :month="month"></order-chart>
       </el-col>
     </el-row>
 
     <el-row :gutter="20">
       <el-col :span="24">
-        <visitor-chart></visitor-chart>
+        <visitor-chart :monthpay="monthpay" :month:="month" :monthvistor="monthvistor"></visitor-chart>
       </el-col>
     </el-row>
 
@@ -43,8 +43,50 @@
     components: { moneyChart, visitorChart, orderChart },
     data() {
       return {
+        listLoading:false,
+        sumOrder:'0',
+        sumStore:'0',
+        sumUser:'0',
+        sumMember:'0',
+        monthMoney:[],
+        monthOrder:[],
+        monthvistor:[],
+        monthpay:[],
+        month:[],
       };
     },
+
+
+    created(){
+      this.getData();
+    },
+    methods:{
+      getData(){
+        this.listLoading=true;
+        setTimeout(()=>{
+          this.$store.dispatch('GetHeadImageData').then((res)=>{
+              this.sumOrder=res.sumOrder;
+              this.sumStore=res.sumStore;
+              this.sumUser=res.sumUser;
+              this.sumMember=res.sumMember;
+              this.monthMoney=res.monthMoney;
+              this.monthOrder=res.monthOrder;
+              this.monthvistor=res.monthvistor;
+              this.monthpay=res.monthpay;
+              this.month=res.month;
+          }).catch(()=>{
+
+          })
+          this.listLoading=false;
+        },1000)
+
+      }
+
+
+    },
+
+
+
     computed: {
     }
   };

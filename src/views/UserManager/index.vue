@@ -16,7 +16,7 @@
 
     <el-row :gutter="20" >
       <el-col :span="24" >
-        <visitor-chart :data="data" :month="monthday"></visitor-chart>
+        <visitor-chart :data="monthadduser" :month="monthday"></visitor-chart>
       </el-col>
     </el-row>
 
@@ -35,7 +35,7 @@
         todaysuer:0,
         sumuser:0,
         weekadduser:[],
-        monthadduser:['0'],
+        monthadduser:[],
         monthday:[],
         loading:false,
       };

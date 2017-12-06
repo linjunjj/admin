@@ -31,6 +31,24 @@ const user = {
     }
   },
   actions: {
+    //获取首页概览数据
+    GetHeadImageData({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getHeaderData').then(function (response) {
+          var code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch(()=>{
+          reject("网络错误");
+        })
+      })
+
+    },
+
+
     //得到用户列表
     GetUserList({commit},info){
       return new Promise((resolve,reject)=>{

@@ -41,7 +41,9 @@
       };
     },
     mounted() {
-      this.initChart();
+      setTimeout(()=>{
+        this.initChart();
+      })
       if (this.autoResize) {
         this.__resizeHanlder = debounce(() => {
           this.chart.resize();

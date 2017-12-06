@@ -19,15 +19,27 @@
       height: {
         type: String,
         default: '300px'
+      },
+      monthmoney: {
+        required: true,
+        type: Object
+      },
+      month:{
+        required:true,
+        type:Object,
       }
     },
     data() {
       return {
-        chart: null
+        chart: null,
+        month:this.month,
+        monthmoney:this.monthmoney,
       };
     },
     mounted() {
-      this.initChart();
+      setTimeout(()=>{
+        this.initChart();
+      })
     },
     beforeDestroy() {
       if (!this.chart) {
@@ -59,7 +71,7 @@
           },
           xAxis: [{
             type: 'category',
-            data: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+            data: this.month,
             axisTick: {
               alignWithLabel: true
             }
@@ -67,25 +79,13 @@
           yAxis: [{
             type: 'value'
           }],
-          series: [{
+          series: {
             name: 'pageA',
             type: 'bar',
             stack: 'vistors',
             barWidth: '60%',
-            data: [79, 52, 200, 334, 390, 330, 220]
-          }, {
-            name: 'pageB',
-            type: 'bar',
-            stack: 'vistors',
-            barWidth: '60%',
-            data: [80, 52, 200, 334, 390, 330, 220]
-          }, {
-            name: 'pageC',
-            type: 'bar',
-            stack: 'vistors',
-            barWidth: '60%',
-            data: [30, 52, 200, 334, 390, 330, 220]
-          }]
+            data: this.monthmoney,
+          }
         });
       }
     }

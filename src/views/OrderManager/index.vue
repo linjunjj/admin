@@ -71,10 +71,11 @@
             this.weekmoney=res.weekMoney;
             this.weekplan=res.weekPlan;
             this.monthday=res.monthDay;
+            console.log('dasdewfwfwfsad');
             this.monthMoney=res.monthMoney;
           })
           this.listLoading=false;
-        },2000);
+        });
 
       }
 

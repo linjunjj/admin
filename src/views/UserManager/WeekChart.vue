@@ -1,5 +1,5 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}"></div>
+  <div :class="className" :style="{height:height,width:width}" v-loading="listLoading"></div>
 </template>
 
 <script>
@@ -29,12 +29,15 @@
       return {
         chart: null,
         data:this.data,
+        listLoading:false,
       };
     },
     mounted() {
+      this.listLoading=true;
       setTimeout(()=>{
         this.initChart();
-      })
+        this.listLoading=false;
+      },1000)
     },
     beforeDestroy() {
       if (!this.chart) {

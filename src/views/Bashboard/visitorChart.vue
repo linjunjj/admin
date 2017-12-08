@@ -27,31 +27,36 @@
       },
       monthvistor: {
         required: true,
-        type: Object
+        type: Array,
+        default: 0,
+
       },
       monthpay: {
         required: true,
-        type: Object
+        type: Array,
+        default: 0,
+
       },
       month:{
         required:true,
-        type:Object,
+        type:Array,
+        default: 0,
+        monthpay:this.monthpay,
+        monthvistor:this.monthvistor,
       }
 
     },
     data() {
       return {
         chart: null,
-        monthvistor:this.monthvistor,
-      monthpay:this.monthpay,
         month:this.month,
+
       };
     },
     mounted() {
-      setTimeout(()=>{
-        this.initChart();
-
-      })
+     setTimeout(()=>{
+       this.initChart();
+     },1000)
       if (this.autoResize) {
         this.__resizeHanlder = debounce(() => {
           this.chart.resize();
@@ -80,7 +85,7 @@
     methods: {
       initChart() {
         this.chart = echarts.init(this.$el, 'macarons');
-
+       console.log(this.month)
         this.chart.setOption({
           title: {
             text: '本月访客人员',

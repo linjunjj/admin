@@ -66,7 +66,10 @@
       </el-table-column>
       <el-table-column align="center" width="180px" label="操作人" prop="dopayname" sortable>
       </el-table-column>
-      <el-table-column align="center" width="180px" label="日期" prop="paytime" sortable>
+      <el-table-column align="center" width="180px" label="日期" sortable>
+        <template scope="scope">
+         {{scope.row.paytime | parseTime}}
+        </template>
       </el-table-column>
 
 

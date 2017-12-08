@@ -71,10 +71,19 @@
       <el-table-column align="center" width="150px" label="IP" prop="ip" sortable>
       </el-table-column>
 
-      <el-table-column align="center" width="150px" label="创建时间" prop="creatTime" sortable>
+      <el-table-column align="center" width="180px" label="创建时间"  sortable>
+        <template scope="scope">
+          {{scope.row.createtime | parseTime}}
+        </template>
       </el-table-column>
-      <el-table-column align="center" width="180px" label="最近一次登入时间" prop="loginTime" sortable>
+
+      <el-table-column align="center" width="180px" label="最近一次登入时间" sortable>
+        <template scope="scope">
+          {{scope.row.login | parseTime}}
+        </template>
+
       </el-table-column>
+
       <el-table-column align="center" label="状态" width="100">
         <template scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{scope.row.status ? '会员' : '非会员'}}</el-tag>
@@ -127,6 +136,7 @@
       };
     },
     created() {
+         this.judge();
       this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
       $(window).resize(() => {
         this.tableHeight = document.documentElement.clientHeight - (50 + 20 + 50 + 70);
@@ -144,25 +154,25 @@
       }
     },
     methods: {
-      judge(){
-        var  info='';
-        var temp='';
-        info=this.$store.getters.status;
-        temp=this.$store.getters.conditions;
+      judge() {
+        var info = '';
+        var temp = '';
+        info = this.$store.getters.status;
+        temp = this.$store.getters.conditions;
         console.log(info);
-        this.value=info;
-        this.condition=temp;
-        if (info===0||info===1||info===2){
-          if (temp== ''){
+        this.value = info;
+        this.condition = temp;
+        if (info === 0 || info === 1 || info === 2) {
+          if (temp == '') {
             this.getStatusList(info);
-          }else {
-            this.getSearchUserStatus(temp,info);
+          } else {
+            this.getSearchUserStatus(temp, info);
           }
 
-        }else {
-          if (temp==''){
+        } else {
+          if (temp == '') {
             this.getList();
-          }else {
+          } else {
             this.getSearchUser(temp)
             console.log(temp)
           }
@@ -171,65 +181,70 @@
       getList() {
         this.listLoading = true;
         setTimeout((items, total) => {
-          var info={};
-          info.page=this.listQuery.page;
-          info.pagesize=this.listQuery.limit;
-          this.$store.dispatch('GetUserList',info).then((res)=>{
-            this.total=res.total;
-            this.list=res.list;
+          var info = {};
+          info.page = this.listQuery.page;
+          info.pagesize = this.listQuery.limit;
+          this.$store.dispatch('GetUserList', info).then((res) => {
+            this.total = res.total;
+            this.list = res.list;
           })
           this.listLoading = false;
         }, 2000);
+      },
+
+      parseTimes(time) {
+        return parseTime(time);
       },
       getStatusList(status) {
         this.listLoading = true;
         setTimeout((items, total) => {
-          var info={};
-          info.status=status;
-          info.page=this.listQuery.page;
-          info.pagesize=this.listQuery.limit;
-          this.$store.dispatch('GetStatusVillage',info).then((res)=>{
-            this.total=res.total;
-            this.list=res.list;
+          var info = {};
+          info.status = status;
+          info.page = this.listQuery.page;
+          info.pagesize = this.listQuery.limit;
+          this.$store.dispatch('GetStatusVillage', info).then((res) => {
+            this.total = res.total;
+            this.list = res.list;
           })
           this.listLoading = false;
         }, 2000);
       },
-      getSearchUser(condition){
+      getSearchUser(condition) {
 
         this.listLoading = true;
         setTimeout((items, total) => {
-          var info={};
-          info.condition=condition;
-          info.page=this.listQuery.page;
-          info.pagesize=this.listQuery.limit;
-          this.$store.dispatch('GetSearchMemberApply',info).then((res)=>{
-            this.total=res.total;
-            this.list=res.list;
+          var info = {};
+          info.condition = condition;
+          info.page = this.listQuery.page;
+          info.pagesize = this.listQuery.limit;
+          this.$store.dispatch('GetSearchMemberApply', info).then((res) => {
+            this.total = res.total;
+            this.list = res.list;
           })
           this.listLoading = false;
         }, 2000);
 
 
       },
-      getSearchUserStatus(condition,status){
+      getSearchUserStatus(condition, status) {
         this.listLoading = true;
         setTimeout((items, total) => {
-          var info={};
-          info.condition=condition;
-          info.status=status;
-          info.page=this.listQuery.page;
-          info.pagesize=this.listQuery.limit;
-          this.$store.dispatch('GetSearchMemberApplyStatus',info).then((res)=>{
-            this.total=res.total;
-            this.list=res.list;
+          var info = {};
+          info.condition = condition;
+          info.status = status;
+          info.page = this.listQuery.page;
+          info.pagesize = this.listQuery.limit;
+          this.$store.dispatch('GetSearchMemberApplyStatus', info).then((res) => {
+            console.log(res.list);
+            this.total = res.total;
+            this.list = res.list;
           })
           this.listLoading = false;
         }, 2000);
       },
       handleFilter() {
-        this.$store.dispatch('ChangeCondition',this.value).then(()=>{
-          this.$store.dispatch('ChangCon',this.condition).then(()=>{
+        this.$store.dispatch('ChangeCondition', this.value).then(() => {
+          this.$store.dispatch('ChangCon', this.condition).then(() => {
             this.judge();
           })
         })
@@ -244,7 +259,6 @@
       },
 
 
-
       handleCheckedStatusChange(value) {
         let checkedCount = value.length;
         this.checkAllStatus = checkedCount === this.goodStatus.length;
@@ -252,7 +266,7 @@
       },
       goGoodsImges() {
         this.jump({path: '/user/userImage'});
-      }
+      },
     },
     beforeRouteEnter (to, from, next) {
       next(vm => {
@@ -265,8 +279,8 @@
           vm.judge();
         }
       });
-    }
-  };
+
+  }}
 </script>
 
 <style>

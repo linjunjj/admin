@@ -47,7 +47,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="120" label="注册时间" prop="createtime" sortable>
+      <el-table-column align="center" width="120" label="注册时间"  sortable>
+        <template scope="scope">
+          {{scope.row.timestamp | parseTime}}
+        </template>
       </el-table-column>
 
       <el-table-column align="center" label="操作" width="150">

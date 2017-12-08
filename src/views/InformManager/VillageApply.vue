@@ -53,7 +53,10 @@
 
       <el-table-column align="center" width="100px" label="姓名" prop="username">
       </el-table-column>
-      <el-table-column align="center" width="150px" label="申请时间" prop="username">
+      <el-table-column align="center" width="150px" label="申请时间" >
+        <template scope="scope">
+          {{scope.row.appletime | parseTime }}
+        </template>
       </el-table-column>
       <el-table-column align="center" label="状态" width="100">
         <template scope="scope">
@@ -71,13 +74,13 @@
             trigger="hover"
             :visible-arrow="false">
             <el-row style="margin-bottom: 3px;">
-              <el-button v-if="scope.row.stutas === 0" size="small" type="info"
-                         @click="handleModifyStatus(scope.row, 1)">上架
+              <el-button v-if="scope.row.stutas === 0 ||scope.row.stutas === 2" size="small" type="info"
+                         @click="handleModifyStatus(scope.row, 1)">通过
               </el-button>
             </el-row>
             <el-row style="margin-bottom: 3px;">
               <el-button v-if="scope.row.stutas === 1" size="small" type="warning"
-                         @click="handleModifyStatus(scope.row, 0)">下架
+                         @click="handleModifyStatus(scope.row, 2)">不通过
               </el-button>
             </el-row>
             <el-row style="margin-bottom: 3px;">

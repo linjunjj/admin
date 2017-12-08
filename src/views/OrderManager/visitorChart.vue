@@ -44,7 +44,7 @@
     mounted() {
       setTimeout(()=>{
         this.initChart();
-      })
+      },1000)
       if (this.autoResize) {
         this.__resizeHanlder = debounce(() => {
           this.chart.resize();

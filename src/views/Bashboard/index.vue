@@ -14,20 +14,19 @@
         <span class="pan-btn green-btn">总会员数：{{sumMember}}</span>
       </el-col>
     </el-row>
-
     <el-row>
       <el-col :span="10">
-        <money-chart :monthmoney="monthMoney"></money-chart>
+        <money-chart :monthmoney="monthMoney" :month="monthday"></money-chart>
       </el-col>
 
       <el-col :span="10">
-        <order-chart :monthorder="monthorder" :month="month"></order-chart>
+        <order-chart :monthorder="monthOrder" ></order-chart>
       </el-col>
     </el-row>
 
     <el-row :gutter="20">
       <el-col :span="24">
-        <visitor-chart :monthpay="monthpay" :month:="month" :monthvistor="monthvistor"></visitor-chart>
+        <visitor-chart :monthpay="monthpay" :month="monthday" :monthvistor="monthvistor"></visitor-chart>
       </el-col>
     </el-row>
 
@@ -52,7 +51,7 @@
         monthOrder:[],
         monthvistor:[],
         monthpay:[],
-        month:[],
+        monthday:[],
       };
     },
 
@@ -73,12 +72,12 @@
               this.monthOrder=res.monthOrder;
               this.monthvistor=res.monthvistor;
               this.monthpay=res.monthpay;
-              this.month=res.month;
+              this.monthday=res.month;
+              console.log(this.monthday)
           }).catch(()=>{
-
           })
           this.listLoading=false;
-        },1000)
+        })
 
       }
 

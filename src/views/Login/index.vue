@@ -34,7 +34,7 @@
         }
       };
       const validatePass = (rule, value, callback) => {
-        if (value.length < 6) {
+        if (value.length < 4) {
           callback(new Error('密码不能小于6位'));
         } else {
           callback();
@@ -61,9 +61,12 @@
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
           if (valid) {
+            console.log("esfrwere");
             this.loading = true;
-            this.$store.dispatch('LoginByAccount', this.loginForm).then(() => {
+            this.$store.dispatch('LoginByAccount', this.loginForm).then((res) => {
               this.loading = false;
+              console.log(res);
+              console.log("esfrwdsfsfsdere");
               this.$router.push({ path: '/' });
             }).catch(err => {
               if(err=="500"){

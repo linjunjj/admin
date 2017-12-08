@@ -48,7 +48,7 @@ function hasPermission(roles, permissionRoles) {
 const whiteList = ['/login'];// 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start(); // 开启Progress
-  if (!store.getters.token) { // 判断是否有token
+  if (store.getters.token) { // 判断是否有token
     if (to.path === '/login') {
       next({ path: '/' });
     } else {

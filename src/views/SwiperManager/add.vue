@@ -1,5 +1,5 @@
 <template>
-  <div class="createPost-container">
+  <div class="createPost-container" v-loading="listLoading">
     <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm" label-width="100px" label-position="right">
       <sticky :className="'sub-navbar published'">
         <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm()">保存
@@ -27,7 +27,7 @@
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :file-list="fileList"
-              :limit="4"
+              :limit="1"
               :before-upload="beforeAvatarUpload"
               :auto-upload="false">
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -72,6 +72,7 @@
           linkType: 1,
           image_uri: ''
         },
+        listLoading:false,
         rules: {
           name: [
             { required: true, message: '请输入轮播图名称', trigger: 'blur' },
@@ -104,6 +105,7 @@
          this.listLoading=true;
          setTimeout(()=>{
            this.submitUpload();
+           this.listLoading=false;
          },2000)
       },
       cancel() {
@@ -129,7 +131,7 @@
         this.$http.post('/api/banner/uploadBanner', fd).then((res) => {
           if (res.data.errorcode=="200"){
             this.listLoading = false;
-            this.cancel();
+            this.jump({path: '/web/add-swiper'});
           }else {
             this.$message.error("上传失败");
           }

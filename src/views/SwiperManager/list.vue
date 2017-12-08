@@ -67,7 +67,6 @@
           <el-tag :type="scope.row.isstart | statusFilter">{{scope.row.isstart ? '已发布':'未发布'}}</el-tag>
         </template>
       </el-table-column>
-
       <el-table-column align="center" label="操作" width="150">
         <template scope="scope">
           <el-button v-if="scope.row.isstart === 0" size="small" type="info" @click="handleModifyStatus(scope.row, 1)">发布
@@ -202,7 +201,7 @@
         });
       },
       handleCreate() {
-        this.jump({path: '/web/add-swiper'});
+        this.jump({path: '/web/swiper-manager'});
       }
     },
     beforeRouteEnter (to, from, next) {

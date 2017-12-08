@@ -1,5 +1,5 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}"></div>
+  <div :class="className" :style="{height:height,width:width}" v-loading="listLoading"></div>
 </template>
 
 <script>
@@ -45,9 +45,11 @@
       };
     },
     mounted() {
+      this.listLoading=true;
       setTimeout(()=>{
         this.initChart();
-      },500)
+        this.listLoading=false
+      },1000)
       if (this.autoResize) {
         this.__resizeHanlder = debounce(() => {
           this.chart.resize();

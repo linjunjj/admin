@@ -31,6 +31,95 @@ const user = {
     }
   },
   actions: {
+    //获取积分商品
+    GetCreatedGoodsData({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/credit/getcregoodsall',{
+          params:{
+            page:info.page,
+            pagesize:info.pagesize,
+          }
+        }).then(function (response) {
+          var code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch(()=>{
+          reject("网络错误");
+        })
+      })
+    },
+    //修改积分商品
+    PutCreatedGoodsData({commit},info){
+      return new Promise((reslove,reject)=>{
+        axios.put('/api/credit/updatecreditgoods',
+          info,
+          {
+            headers:{
+              'Content-Type':'application/json'
+            }
+          }
+        ).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            reslove(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+
+        }).catch((error)=>{
+          reject(error);
+        })
+      })
+
+    },
+    //删除积分商品
+    DeleteCreatedGoods(info){
+      return new Promise((reslove,reject)=>{
+        axios.delete('/api/credit/deletecreditgods',{
+          params:{
+            id:info.id,
+          }
+        }).then(function (response) {
+          var code=response.data.errorcode;
+          if (code=="200"){
+            reslove(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch(function (error) {
+          reject(error);
+        })
+
+      })
+    },
+    //添加积分商品
+    AddCreditGoods({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/credit/addcreategoods',{
+          params:{
+            creditgood:info.creditgood,
+            cregoodssum:info.cregoodssum,
+            price:info.price,
+          }
+        }).then(function (response) {
+          var code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch(()=>{
+          reject("网络错误");
+        })
+      })
+
+
+    },
+
+
     //获取首页概览数据
     GetHeadImageData({commit},info){
       return new Promise((resolve,reject)=>{
@@ -276,7 +365,7 @@ const user = {
       })
     },
     //获取订单状态数据
-    GetStatusOrder(){
+    GetStatusOrder({commit},info){
       return new Promise((resolve,reject)=>{
         axios.get('/api/admin/getStatusOrder',{
           params:{
@@ -825,13 +914,10 @@ const user = {
     // 管理员登入
     LoginByAccount({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
-        let timerss=new Date().getTime();
-
-        commit('SET_TOKEN',timerss);
-
+         console.log(userInfo);
         axios.get('/api/admin/login',{
           params:{
-            admin:userInfo.admin,
+            account:userInfo.account,
             passworld:userInfo.password,
           }
         }).then(function (response) {

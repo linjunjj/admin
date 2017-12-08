@@ -22,11 +22,15 @@
       },
       monthorder: {
         required: true,
-        type: Object
+        type: Array,
+        default: 0,
+
       },
       month:{
         required:true,
-        type:Object,
+        type:Array,
+        default: 0,
+
       }
 
 
@@ -41,7 +45,7 @@
       setTimeout(()=>{
         this.initChart();
 
-      })
+      },1000)
     },
     beforeDestroy() {
       if (!this.chart) {

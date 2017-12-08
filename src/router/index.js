@@ -18,7 +18,7 @@ import {AddSwiper, SwiperList} from '../views/SwiperManager';
 import {EditClient, ClientList} from '../views/ClientManager';
 
 /* good manager */
-import {AddGood, GoodList} from '../views/GoodManager';
+import {AddGood, GoodList,CreatedGood} from '../views/GoodManager';
 import {DealImage,InCome,OutCome} from '../views/DealManger/';
 
 /* category manager */
@@ -29,6 +29,9 @@ import UserImage from  '../views/UserManager/index.vue'
 import {MemberApply, StoreApply,VillageApply,WithdrawApply} from '../views/InformManager';
 /* order manager */
 import {OrderList,OrderImage} from '../views/OrderManager';
+
+
+
 /* error page */
 import Err404 from '../views/Error/404.vue';
 import Err401 from '../views/Error/401.vue';
@@ -109,8 +112,9 @@ export const asyncRouterMap = [
     name: '商品管理',
     icon: 'fa-gift',
     children: [
-      {path: 'good-manager', component: GoodList, name: '商品列表', meta: {keepAlive: true, keepTabsView: true}},
-      {path: 'add-good', component: AddGood, name: '新增商品', hidden: true, meta: {keepAlive: false, keepTabsView: false}},
+      {path: 'good-manager', component: GoodList, name: '商品列表', meta: {keepAlive: false, keepTabsView: false}},
+      {path: 'createdgoods', component: CreatedGood, name: '积分商品列表', meta: {keepAlive: false, keepTabsView: false}},
+      {path: 'add-good', component: AddGood, name: '新增积分商品', hidden: true, meta: {keepAlive: false, keepTabsView: false}},
       {path: 'category-manager', component: CategoryManager, name: '商品分类设置', meta: {keepAlive: false, keepTabsView: true}}
     ]
   },

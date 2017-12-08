@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-editor-container"     v-loading="loading"
+  <div class="dashboard-editor-container"   v-loading="listLoading"
   >
       <el-col :span="4" class='text-center'>
         <span class="pan-btn light-blue-btn">今日新增用户：{{todaysuer}}</span>
@@ -37,7 +37,7 @@
         weekadduser:[],
         monthadduser:[],
         monthday:[],
-        loading:false,
+        listLoading:false,
       };
     },
      created(){
@@ -48,7 +48,7 @@
     },
      methods:{
        getData(){
-         this.loading=true;
+         this.listLoading=true;
          setTimeout((items,total)=>{
          this.$store.dispatch('GetUserImage').then((res)=>{
            this.todaysuer=res.newuser;
@@ -58,7 +58,7 @@
            console.log(this.monthday);
            this.monthadduser=res.monthUser;
          })
-           this.loading=false;
+           this.listLoading=false;
          });
        },
      },

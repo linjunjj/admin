@@ -36,7 +36,7 @@
     mounted() {
       setTimeout(()=>{
         this.initChart();
-    })
+    },1000)
     },
     beforeDestroy() {
       if (!this.chart) {

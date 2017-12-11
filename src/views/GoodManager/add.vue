@@ -199,10 +199,8 @@
         this.showImagePreview = true;
       },
       beforeAvatarUpload(file) {
-        console.log("阿诗丹顿放松放松")
         const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 5;
-        console.log("阿诗丹顿放松放松")
 
         if (!isJPG) {
           this.$message.error('上传头像图片只能是 JPG 格式!');

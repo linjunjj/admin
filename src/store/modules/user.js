@@ -348,6 +348,30 @@ const user = {
 
       })
     },
+    //获取所有的积分商品订单
+    GetCreditOrderList({commit},info){
+      return new Promise((resolve,reject)=>{
+        axios.get('/api/admin/getcreditorder',{
+          params:{
+            page: info.page,
+            pagesize: info.pagesize,
+          }
+        }).then(function (response) {
+          var  code=response.data.errorcode;
+          if (code=="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch((error)=>{
+          reject(error);
+        })
+
+      })
+    },
+
+
+
     //获取订单概览
     GetOrderImage(){
       return new Promise((resolve,reject)=>{

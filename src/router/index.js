@@ -28,7 +28,7 @@ import UserList from '../views/UserManager/list.vue';
 import UserImage from  '../views/UserManager/index.vue'
 import {MemberApply, StoreApply,VillageApply,WithdrawApply} from '../views/InformManager';
 /* order manager */
-import {OrderList,OrderImage} from '../views/OrderManager';
+import {OrderList,OrderImage,CreditOrder} from '../views/OrderManager';
 
 
 
@@ -127,6 +127,8 @@ export const asyncRouterMap = [
     icon: 'fa-file-text',
     children: [
       {path: 'order-manager', component: OrderList, name: '订单列表', meta: {keepAlive: true, keepTabsView: true}},
+      {path: 'creorder-manager', component: CreditOrder, name: '积分订单列表', meta: {keepAlive: true, keepTabsView: true}},
+
       {path: 'orderImage', component: OrderImage, name: '订单概览', meta: {keepAlive: false, keepTabsView: false}}
 
     ]

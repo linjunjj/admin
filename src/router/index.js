@@ -12,7 +12,7 @@ import Login from '../views/Login/index.vue';
 import Bashboard from '../views/Bashboard/index.vue';
 
 /* swiper manager */
-import {AddSwiper, SwiperList} from '../views/SwiperManager';
+import {AddSwiper, SwiperList,RateSeting} from '../views/SwiperManager';
 
 /* client manager */
 import {EditClient, ClientList} from '../views/ClientManager';
@@ -75,9 +75,10 @@ export const asyncRouterMap = [
     path: '/web',
     component: Layout,
     redirect: '/web/swiper-manager',
-    name: '官网设置',
+    name: '系统设置',
     icon: 'fa-cogs',
     children: [
+      {path: 'rate-manager', component: RateSeting, name: '返积分设置', meta: {keepAlive: false, keepTabsView: false}},
       {path: 'swiper-manager', component: SwiperList, name: '轮播图设置', meta: {keepAlive: false, keepTabsView: false}},
       {path: 'add-swiper', component: AddSwiper, name: '新增轮播图', hidden: true, meta: {keepAlive: false, keepTabsView: false}}
     ]

@@ -932,7 +932,44 @@ const user = {
       })
     },
 
+    //获取积分比率
+    Get_CreditRate({commit},info){
+      return new Promise((resolve, reject) => {
+        console.log(userInfo);
+        axios.get('/api/admin/getRate').then(function (response) {
+          var code=response.data.errorcode;
+          if(code="200"){
+            resolve(response.data.data);
+          }else {
+            reject(response.data.errormsg);
+          }
+        }).catch(()=>{
+          reject("网络错误");
+        })
+      });
 
+    },
+
+    //更新积分比率
+    Update_CreditRate({commit},info){
+      axios.put('/api/admin/updateRate',
+        info,{
+          headers:{
+            'Content-Type': 'application/json',
+          }
+        }
+      ).then(function (response) {
+        var  code=response.data.errorcode;
+        if (code=="200"){
+          reslove(response.data.data);
+        }else {
+          reject(response.data.errormsg);
+        }
+      }).catch((error)=>{
+        reject(error);
+      })
+    })
+    },
 
 
     // 管理员登入

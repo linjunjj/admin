@@ -1,4 +1,5 @@
 import axios from 'axios'
+axios.defaults.baseURL = 'http://localhost:8080/'
 const search = {
     state: {
       condition:'',
@@ -25,7 +26,7 @@ const search = {
     //用户搜索
     GetSearchUser({commit},info){
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchUser',{
+        axios.get('/search/searchUser',{
           params:{
             condition: info.condition,
             page:info.page,
@@ -47,7 +48,7 @@ const search = {
     //用户状态搜索
     GetSearchUserStatus({commit},info){
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchUserStatus',{
+        axios.get('/search/searchUserStatus',{
           params:{
             condition: info.condition,
             status:info.status,
@@ -69,7 +70,7 @@ const search = {
   //商品搜索
     GetSearchGoods({commit},info){
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchGoods',{
+        axios.get('/search/searchGoods',{
           params:{
             condition: info.condition,
             page:info.page,
@@ -90,7 +91,7 @@ const search = {
   // 商品状态搜索
     GetSearchGoodsStatus({commit},info){
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchGoodsStatus',{
+        axios.get('/search/searchGoodsStatus',{
           params:{
             condition: info.condition,
             status:info.status,
@@ -112,7 +113,7 @@ const search = {
   //  订单搜索
     GetSearchOrder({commit},info){
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchOrder',{
+        axios.get('/search/searchOrder',{
           params:{
             condition: info.condition,
             page:info.page,
@@ -134,7 +135,7 @@ const search = {
     GetSearchOrderStatus({commit},info){
 
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchOrderStatus',{
+        axios.get('/search/searchOrderStatus',{
           params:{
             condition: info.condition,
             status:info.status,
@@ -157,7 +158,7 @@ const search = {
     GetSearchIncome({commit},info){
 
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchIncome',{
+        axios.get('/search/searchIncome',{
           params:{
             condition: info.condition,
             page:info.page,
@@ -179,7 +180,7 @@ const search = {
     GetSearchIncomeStatus({commit},info){
 
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchIncomeStatus',{
+        axios.get('/search/searchIncomeStatus',{
           params:{
             condition: info.condition,
             status:info.status,
@@ -202,7 +203,7 @@ const search = {
     GetSearchOutcome({commit},info){
 
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchOutcome',{
+        axios.get('/search/searchOutcome',{
           params:{
             condition: info.condition,
             page:info.page,
@@ -224,7 +225,7 @@ const search = {
     GetSearchOutcomeStatus({commit},info){
 
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchOutcomeStatus',{
+        axios.get('/search/searchOutcomeStatus',{
           params:{
             condition: info.condition,
             status:info.status,
@@ -247,7 +248,7 @@ const search = {
     GetSearchMemberApply({commit},info){
 
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchMember',{
+        axios.get('/search/searchMember',{
           params:{
             condition: info.condition,
             page:info.page,
@@ -268,7 +269,7 @@ const search = {
   //会员申请状态搜索
     GetSearchMemberApplyStatus({commit},info){
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchMenberStatus',{
+        axios.get('/search/searchMenberStatus',{
           params:{
             condition: info.condition,
             status:info.status,
@@ -291,7 +292,7 @@ const search = {
     GetSearchStoreApply({commit},info){
 
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchStoreApply',{
+        axios.get('/search/searchStoreApply',{
           params:{
             condition: info.condition,
             status:info.status,
@@ -314,7 +315,7 @@ const search = {
     GetSearchStoreApplyStatus({commit},info){
 
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchStoreApplyStatus',{
+        axios.get('/search/searchStoreApplyStatus',{
           params:{
             condition: info.condition,
             status:info.status,
@@ -337,7 +338,7 @@ const search = {
     GetSearchVillageApply({commit},info){
 
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchVillage',{
+        axios.get('/search/searchVillage',{
           params:{
             condition: info.condition,
             page:info.page,
@@ -359,7 +360,7 @@ const search = {
     GetSearchVillageApplyStatus({commit},info){
 
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchVillageStatus',{
+        axios.get('/search/searchVillageStatus',{
           params:{
             condition: info.condition,
             status:info.status,
@@ -381,7 +382,7 @@ const search = {
   // 提现申请搜索
     GetSearchWithdrawApply({commit},info){
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchWithDraw',{
+        axios.get('/search/searchWithDraw',{
           params:{
             condition: info.condition,
             page:info.page,
@@ -402,7 +403,7 @@ const search = {
   // 提现状态申请搜索
     GetSearchWithdrawApplyStatus({commit},info){
       return new Promise((resolve,reject)=>{
-        axios.get('/api/search/searchWithDrawStatus',{
+        axios.get('/search/searchWithDrawStatus',{
           params:{
             condition: info.condition,
             status:info.status,

@@ -1,4 +1,6 @@
 import  axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:8080/'
+
 const info ={
   state:{
     memberApply:'',
@@ -26,7 +28,7 @@ const info ={
     //消息显示
     GetInfos({commit},info){
       return new Promise((reslove,reject)=>{
-        axios.get('/api/admin/getinfo',{
+        axios.get('/admin/getinfo',{
           params:{
             status:info,
           }

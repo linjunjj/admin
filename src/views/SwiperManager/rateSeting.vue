@@ -52,7 +52,6 @@
 
       },
 
-
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -60,7 +59,7 @@
             setTimeout(()=>{
               var info={};
               info.id=1;
-              info.rate=this.rate;
+              info.rate=this.numberValidateForm.age;
               this.$store.dispatch('Update_CreditRate',info).then((res)=>{
                 this.rate=res;
               })

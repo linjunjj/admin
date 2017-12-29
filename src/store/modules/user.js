@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import  axios from  'axios';
-axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.baseURL = 'http://api.shunnonghui.com'
 const user = {
   state: {
     token: Cookies.get('Admin-Token'),

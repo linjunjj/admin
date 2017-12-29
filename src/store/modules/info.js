@@ -1,5 +1,5 @@
 import  axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.baseURL = 'http://api.shunnonghui.com'
 
 const info ={
   state:{

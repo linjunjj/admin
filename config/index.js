@@ -30,7 +30,6 @@ module.exports = {
     proxyTable: {
     },
 
-    // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
